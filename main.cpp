@@ -1,5 +1,12 @@
+#include <iostream>
 #include "model.h"
+
+
+
+
+
 int main(void) {
+	bool running = true;
 	model model;
 	controller controller;
 	viewer viewer;
@@ -7,3 +14,4 @@ int main(void) {
 	while(running)
 		controller.cycle();
 }
+
