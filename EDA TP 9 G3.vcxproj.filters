@@ -38,5 +38,13 @@
     <ClInclude Include="controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="twitter.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

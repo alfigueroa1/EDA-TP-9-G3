@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <list>
 #include <vector>
 
 
@@ -12,12 +13,17 @@ struct tweet {
 
 class model {
 public:
+	//Constructor y destructor
+	model();
+	//~model();
+
 	//Getters y Setters
 	string getTweetDate();
 	string getTweetContent();
 	string getUser();
 
 	//Manejo de la lista de Tweets
+	void parseTweet();
 	void goPrevious();
 	void goNext();
 	//void repeat();
@@ -25,10 +31,12 @@ public:
 
 private:
 	vector<tweet> tweetList;
+	//list<tweet, allocator<tweet>> tweetList;
 	string username;
 	vector<tweet>::iterator curr;
-	void setDate(string);
+	//list<tweet, allocator<tweet>>::iterator curr;
+	void makeDate(tweet&);
 	void setUser(string);
-	void makeDialogue();
+	void makeDialogue(tweet&);
 
 };
