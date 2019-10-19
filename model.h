@@ -1,9 +1,14 @@
 #pragma once
 #include <iostream>
-#include <list>
+#include <vector>
 
 
 using namespace std;
+
+struct tweet {
+	string date;
+	string content;
+};
 
 class model {
 public:
@@ -15,21 +20,15 @@ public:
 	//Manejo de la lista de Tweets
 	void goPrevious();
 	void goNext();
-	void repeat();
+	//void repeat();
 	void error();
 
 private:
-	list<tweet, allocator<tweet>> tweetList;
+	vector<tweet> tweetList;
 	string username;
+	vector<tweet>::iterator curr;
 	void setDate(string);
 	void setUser(string);
 	void makeDialogue();
-
-};
-
-struct tweet {
-
-	string date;
-	string content;
 
 };
