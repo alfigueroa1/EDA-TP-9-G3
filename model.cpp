@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iostream>  
 #include <fstream> 
 #include <ctime>
 #include <sstream>
@@ -10,8 +9,6 @@
 #include <exception>
 #include "json.hpp"
 #include "model.h"
-
-#define TWEET_MAX
 
 using json = nlohmann::json;
 
@@ -41,14 +38,26 @@ string model::getUser() {
 }
 
 //Manejo de la lista de Tweets
-void model::goPrevious() {
-	if (curr != tweetList.begin())
-		curr--;
+tweet model::getTweet(){
+	return *curr;
 }
 
-void model::goNext() {
+bool model::goPrevious() {
+	bool start = false;
+	if (curr != tweetList.begin())
+		curr--;
+	else
+		start = true;
+	return start;
+}
+
+bool model::goNext() {
+	bool end = false;
 	if (curr != tweetList.end())
 		curr++;
+	else
+		end = true;
+	return end;
 }
 
 //void model::repeat() {}
@@ -57,11 +66,7 @@ void model::error() {
 
 }
 
-void model::setUser(string user) {
-	username = user;
-}
-
-void model::parseTweet() {
+void model::parseTweets() {
 	std::ifstream i("twitter.json", std::ifstream::in);									//Read JSON file
 	json j;
 	i >> j;
@@ -109,11 +114,11 @@ void model::makeDate(tweet& tw) {
 	istringstream iss(tw.date);
 	string format("%a %b %d %T +0000 %Y");
 	
-	tmget.get(iss, std::time_get<char>::iter_type(), iss, state, &when,
+	tmget.get(iss, std::time_get<char>::iter_type(), iss, state, &when,				//Convert string to tm
 		format.data(), format.data() + format.length());
 
 	char buffer[16];
-	strftime(buffer, 16, "%x %R", &when);
+	strftime(buffer, 16, "%x %R", &when);											//Convert tm to string in desired format
 	tw.date = buffer;
 }
 

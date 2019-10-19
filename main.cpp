@@ -9,7 +9,6 @@ int main(void) {
 	bool running = true;
 	model model;
 
-	model.parseTweet();
 
 	//controller controller;
 	//viewer viewer;

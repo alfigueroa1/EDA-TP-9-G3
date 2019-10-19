@@ -23,20 +23,18 @@ public:
 	string getUser();
 
 	//Manejo de la lista de Tweets
-	void parseTweet();
-	void goPrevious();
-	void goNext();
+	tweet getTweet();				//Devuelve el tweet actual
+	bool goPrevious();				//Va el tweet anterior, devuelve true si esta en el primer tweet
+	bool goNext();					//Va el siguiente tweet, devuelve true si esta en el ultimo tweet
 	//void repeat();
 	void error();
 
 private:
 	vector<tweet> tweetList;
-	//list<tweet, allocator<tweet>> tweetList;
 	string username;
 	vector<tweet>::iterator curr;
-	//list<tweet, allocator<tweet>>::iterator curr;
+	void parseTweets();
 	void makeDate(tweet&);
-	void setUser(string);
 	void makeDialogue(tweet&);
 
 };
