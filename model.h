@@ -11,6 +11,8 @@ public:
 	string getTweetDate();
 	string getTweetContent();
 	string getUser();
+
+	//Manejo de la lista de Tweets
 	void goPrevious();
 	void goNext();
 	void repeat();
