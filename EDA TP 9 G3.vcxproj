@@ -126,12 +126,15 @@
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="twitterClass.cpp" />
     <ClCompile Include="viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="observer.h" />
+    <ClInclude Include="twitterClass.h" />
     <ClInclude Include="viewer.h" />
   </ItemGroup>
   <ItemGroup>
