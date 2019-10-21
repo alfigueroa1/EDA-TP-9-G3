@@ -9,7 +9,11 @@ using namespace std;
 class viewer : public observer {
 
 public:
+
+	viewer();									//Constructor: Crea con new el basicLCD
+	~viewer();									//Destructor
 	void update(void*);							//Recibe model y lo castea a (model*)
+	void cycle();								//Ciclo adentro del while de lo que hace
 	bool getTweetState();						//Avisa si el tweet terminó de pasar (true)
 	void restartTweet(tweet tw);				//Reinicia el tweet que se estaba mostrando
 	void changeSpeed(int);						//Ajusta la velocidad a la que se esta mostrando el tweet

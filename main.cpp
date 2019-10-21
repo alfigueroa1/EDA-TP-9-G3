@@ -1,6 +1,7 @@
 #include <iostream>
 #include "model.h"
 #include "controller.h"
+#include "viewer.h"
 
 
 
