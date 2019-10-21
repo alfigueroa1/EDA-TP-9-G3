@@ -134,6 +134,7 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="twitterClass.cpp" />
     <ClCompile Include="viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,8 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="observer.h" />
+    <ClInclude Include="twitterClass.h" />
     <ClInclude Include="viewer.h" />
   </ItemGroup>
   <ItemGroup>
