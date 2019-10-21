@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\ImGUI.cpp">
+      <UniqueIdentifier>{0650059c-7a97-4d3b-bf4d-92223505f5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImGUI.h">
+      <UniqueIdentifier>{be1a2fc0-1e96-4b72-8668-2472ee22cc59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,6 +32,21 @@
     </ClCompile>
     <ClCompile Include="controller.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_allegro5.cpp">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\ImGUI.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,10 +62,43 @@
     <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig_allegro5.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_allegro5.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="twitter.json">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="imgui.ini">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="imgui_log.txt">
+      <Filter>Source Files\ImGUI.cpp</Filter>
+    </Text>
   </ItemGroup>
 </Project>

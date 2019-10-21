@@ -1,6 +1,6 @@
 #include <iostream>
 #include "model.h"
-
+#include "controller.h"
 
 
 
@@ -8,13 +8,16 @@
 int main(void) {
 	bool running = true;
 	model model;
+	viewer viewer;
+	
+	controller controller(model);
+	controller.cycle();
+	viewer.cycle();
 
 
-	//controller controller;
-	//viewer viewer;
+	////while (running)
+	////	controller.cycle();
 
-	//while (running)
-	//	controller.cycle();
 	//eventType ev = NO_EVENT;	//Inicializa la variable "evento" en "NO EVENTO"
 	//while (ev != QUIT) {		//Hasta que el usuario decida salir del programa
 	//	ev = eventHandler.getNextEventType();	//Consigue el proximo evento

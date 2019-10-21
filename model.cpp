@@ -37,6 +37,14 @@ string model::getUser() {
 	return username;
 }
 
+void model::setUser(string user) {
+	username = user;
+}
+
+void model::setMaxTweets(int max) {
+	maxTweets = max;
+}
+
 //Manejo de la lista de Tweets
 tweet model::getTweet(){
 	return *curr;
@@ -60,7 +68,7 @@ bool model::goNext() {
 	return end;
 }
 
-//void model::repeat() {}
+void model::stop(){}
 
 void model::error() {
 
