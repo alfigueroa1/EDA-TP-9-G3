@@ -17,6 +17,7 @@ public:
 	bool getTweetState();						//Avisa si el tweet terminó de pasar (true)
 	void restartTweet(tweet tw);				//Reinicia el tweet que se estaba mostrando
 	void changeSpeed(int);						//Ajusta la velocidad a la que se esta mostrando el tweet
+	void showEnd();								//Muestra que se llegó al final de los tweets
 
 
 private:

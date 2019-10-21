@@ -11,21 +11,11 @@ int main(void) {
 	model model;
 	viewer viewer;
 	
-	controller controller(model);
-	controller.cycle();
-	viewer.cycle();
-
-
-	////while (running)
-	////	controller.cycle();
-
-	//eventType ev = NO_EVENT;	//Inicializa la variable "evento" en "NO EVENTO"
-	//while (ev != QUIT) {		//Hasta que el usuario decida salir del programa
-	//	ev = eventHandler.getNextEventType();	//Consigue el proximo evento
-	//	if (ev != NO_EVENT && ev != QUIT) {		//Si no es el evento "nulo" o el evento de salida...
-	//		dispatch(ev, &front, &worm1, &worm2);	//...lo deriva a la funcion correspondiente
-	//	}
-	//}
+	while (running) {
+		controller controller(model);
+		controller.cycle();
+		viewer.cycle();
+	}
 
 	return 0; //Fin del programa
 }
