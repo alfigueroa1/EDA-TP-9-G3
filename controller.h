@@ -7,7 +7,7 @@
 class controller {
 public:
 	//Constructor y destructor
-	controller(model);
+	controller(model&);
 	~controller();
 
 	void cycle();

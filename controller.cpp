@@ -11,7 +11,7 @@
 #define FPS	50.0
 #define MAX_USER 15
 
-controller::controller(model mainM) {
+controller::controller(model& model) {
 
 	// Setup Allegro
 	al_init();
@@ -43,7 +43,7 @@ controller::controller(model mainM) {
 	ImGui_ImplAllegro5_Init(display);
 
 	// Initialize Variables
-	m = mainM;
+	m = model;
 	ask = true;
 
 	// Start Timer
@@ -61,7 +61,6 @@ controller::~controller() {
 
 void controller::cycle() {
 	bool running = true;
-	model m;
 	while (running) {
 		ALLEGRO_EVENT ev;
 		while (al_get_next_event(queue, &ev))
