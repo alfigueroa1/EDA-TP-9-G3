@@ -9,9 +9,8 @@
 #include "controller.h"
 
 #define FPS	50.0
-#define MAX_USER 16
 
-controller::controller(model& model, viewer& viewer) {
+controller::controller(model& model){//, viewer& viewer) {
 
 	// Setup Allegro
 	al_init();
@@ -44,7 +43,7 @@ controller::controller(model& model, viewer& viewer) {
 
 	// Initialize Variables
 	m = model;
-	v = &viewer;
+	//v = &viewer;
 	ask = true;
 
 	// Start Timer
@@ -75,14 +74,14 @@ void controller::cycle() {
 		}
 	}
 
+	// Start the Dear ImGui frame
+	ImGui_ImplAllegro5_NewFrame();
+	ImGui::NewFrame();
+
 	if (m.isDownloading()) {
 		m.getMoreTweets();
 		drawDownloading();
 	}
-
-	// Start the Dear ImGui frame
-	ImGui_ImplAllegro5_NewFrame();
-	ImGui::NewFrame();
 
 	//Pide Input del Ususario
 	if (ask)
@@ -111,7 +110,7 @@ void controller::drawOptions(model m) {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reshow")) {
-		v->restartTweet(m.getTweet());
+		//v->restartTweet(m.getTweet());
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Next")) {
@@ -122,8 +121,8 @@ void controller::drawOptions(model m) {
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
 
 	if (ImGui::Button("More Tweets")) {
-		if (m.getMoreTweets())
-			v->displayError();
+		//if (m.getMoreTweets())
+			//v->displayError();
 	}
 
 	ImGui::End();
@@ -139,8 +138,7 @@ void controller::drawDownloading() {
 }
 
 void controller::askForTweets() {
-	char userBuffer[MAX_USER];
-	char maxBuffer[50];
+
 	ImGui::Begin("Display tweets on LCD!", &ask);
 
 	ImGui::Text("Por favor especifique la cuenta de la cual quiere leer los tweets");
@@ -148,15 +146,15 @@ void controller::askForTweets() {
 	ImGui::NewLine();
 
 	ImGui::Text("Por favor especifique la cantidad de twets que quiere cargar");
-	ImGui::InputText("Amount of tweets", maxBuffer, 50);
+	ImGui::InputText("Amount of tweets", maxBuffer, 5);
 	ImGui::NewLine();
 
 	if (ImGui::Button("Submit")) {
 		m.setUser(userBuffer);
 		m.setMaxTweets(atoi(maxBuffer));
 		ask = false;
-		if (m.getMoreTweets())
-			v->displayError();
+		//if (m.getMoreTweets())
+			//v->displayError();
 	}
 
 	ImGui::End();

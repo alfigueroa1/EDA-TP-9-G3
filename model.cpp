@@ -34,12 +34,13 @@ void model::notifyAllObservers() {
 	}
 	return;
 }
-bool model::getMoreTweets() {
-	twitter.getTweets(username, maxTweets, &currentTransfers);
+int model::getMoreTweets() {
+	int r = twitter.getTweets(username, maxTweets, &currentTransfers);
 	if (currentTransfers == 0)
 		downloading = false;
 	else
 		downloading = true;
+	return r;
 }
 
 //Getters y Setters

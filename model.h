@@ -14,7 +14,7 @@ struct tweet {
 };
 
 typedef enum {
-	INIT, ERROR, DOWNLOADING, FINISHED_DOWNLOAD, FINISH_EARLY, REPEAT, NEXT, PREV
+	INIT, ERR, DOWNLOADING, FINISHED_DOWNLOAD, FINISH_EARLY, REPEAT, NEXT, PREV
 } stateType;
 
 class model {
@@ -32,13 +32,12 @@ public:
 	bool isDownloading() { return downloading; }
 	void setUser(string);
 	void setMaxTweets(int);
-	bool getMoreTweets();
+	int getMoreTweets();
 
 	//Manejo de la lista de Tweets
 	tweet getTweet();				//Devuelve el tweet actual
 	bool goPrevious();				//Va el tweet anterior, devuelve true si esta en el primer tweet
 	bool goNext();					//Va el siguiente tweet, devuelve true si esta en el ultimo tweet
-	void reshow();
 	void stop();
 	void error();
 

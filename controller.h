@@ -5,10 +5,13 @@
 #include "model.h"
 #include "viewer.h"
 
+#define MAX_USER 16
+#define MAX_TWEETS 5
+
 class controller {
 public:
 	//Constructor y destructor
-	controller(model&, viewer&);
+	controller(model&);// , viewer&);
 	~controller();
 
 	void cycle();
@@ -21,10 +24,12 @@ public:
 
 private:
 	model m;
-	viewer* v;
+	//viewer* v;
 	//ALLEGRO_TIMER* timer;
 	ALLEGRO_DISPLAY* display;
 	ALLEGRO_EVENT_QUEUE* queue;
+	char userBuffer[MAX_USER];
+	char maxBuffer[MAX_TWEETS];
 	float speed;
 	bool ask;
 

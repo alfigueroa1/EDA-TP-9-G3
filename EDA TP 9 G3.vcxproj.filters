@@ -48,6 +48,9 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Source Files\ImGUI.cpp</Filter>
     </ClCompile>
+    <ClCompile Include="twitterClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="viewer.h">
@@ -85,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>Header Files\ImGUI.h</Filter>
+    </ClInclude>
+    <ClInclude Include="observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="twitterClass.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
