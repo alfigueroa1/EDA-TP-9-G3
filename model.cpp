@@ -130,6 +130,56 @@ void model::parseTweets() {
 		}
 	}
 
+	try {
+
+		ifstream i("prueba1.json");
+		i >> file;
+		i.close();
+	}
+
+	catch (exception & e)
+	{
+		json::iterator it = file.end();
+		it--;
+
+		file.erase(it);
+	}
+
+	if (!file.empty() && file.is_array())
+	{
+		for (auto& element : file)
+		{
+			auto twt = element["text"];
+			auto date = element["created_at"];
+
+			tweets.push_back(twt);
+			dates.push_back(date);
+
+			state = OKEY;
+		}
+	}
+
+	else if (file.empty())
+	{
+		state = NO_TWEETS;
+	}
+
+	else
+	{
+		for (json::iterator it = file.begin(); it != file.end(); ++it)
+		{
+			if (it.key() == "errors")
+			{
+				state = INEXISTENT_USERNAME;
+			}
+
+			else if (it.key() == "error")
+			{
+				state = PRIVATE_ACCOUNT;
+			}
+		}
+	}
+
 	//for (curr = tweetList.begin(); curr != tweetList.end(); curr++) {					//Print tweets (debug)
 	//	cout << "Date: " + curr->date << endl;
 	//	cout << "Content: " + curr->content << endl;
