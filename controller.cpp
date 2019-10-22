@@ -11,7 +11,7 @@
 #define FPS	50.0
 #define MAX_USER 16
 
-controller::controller(model& model) {
+controller::controller(model& model, viewer& viewer) {
 
 	// Setup Allegro
 	al_init();
@@ -26,7 +26,7 @@ controller::controller(model& model) {
 	al_register_event_source(queue, al_get_display_event_source(display));
 	al_register_event_source(queue, al_get_keyboard_event_source());
 	al_register_event_source(queue, al_get_mouse_event_source());
-	timer = al_create_timer(1.0/FPS);
+	//timer = al_create_timer(1.0/FPS);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -44,10 +44,11 @@ controller::controller(model& model) {
 
 	// Initialize Variables
 	m = model;
+	v = &viewer;
 	ask = true;
 
 	// Start Timer
-	al_start_timer(timer);
+	//al_start_timer(timer);
 }
 
 controller::~controller() {
@@ -76,6 +77,11 @@ void controller::cycle() {
 			}
 		}
 
+		if (m.isDownloading()) {
+			m.getMoreTweets();
+			drawDownloading();
+		}
+
 		// Start the Dear ImGui frame
 		ImGui_ImplAllegro5_NewFrame();
 		ImGui::NewFrame();
@@ -85,7 +91,7 @@ void controller::cycle() {
 			askForTweets();
 		
 		//Dibuja UI
-		if(!ask)
+		if(!ask && !m.isDownloading())
 			drawOptions(m);
 
 		// Rendering
@@ -118,10 +124,21 @@ void controller::drawOptions(model m) {
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
 
-	if(ImGui::Button("More Tweets"))
-		m.
+	if (ImGui::Button("More Tweets")) {
+		if (m.getMoreTweets())
+			v->displayError();
+	}
 
+	ImGui::End();
+}
 
+void controller::drawDownloading() {
+	ImGui::Begin("Downloading Tweets");
+	ImGui::NewLine();
+	if (ImGui::Button("STOP"))
+		m.stop();
+
+	ImGui::End();
 }
 
 void controller::askForTweets() {
@@ -141,8 +158,8 @@ void controller::askForTweets() {
 		m.setUser(userBuffer);
 		m.setMaxTweets(atoi(maxBuffer));
 		ask = false;
-		if (ImGui::Button("STOP"))
-			m.stop();
+		if (m.getMoreTweets())
+			v->displayError();
 	}
 
 	ImGui::End();
