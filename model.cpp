@@ -18,7 +18,8 @@ model::model() {
 	if (twitter.getError()) {
 		//report error
 	}
-
+	currentTransfers = 0;
+	downloading = false;
 	username = "NASA";
 	curr = tweetList.begin();
 
@@ -39,6 +40,14 @@ void model::notifyAllObservers() {
 	}
 	return;
 }
+bool model::getMoreTweets() {
+	twitter.getTweets(username, maxTweets, &currentTransfers);
+	if (currentTransfers == 0)
+		downloading = false;
+	else
+		downloading = true;
+}
+
 //Getters y Setters
 string model::getTweetDate() {
 	return curr->date;

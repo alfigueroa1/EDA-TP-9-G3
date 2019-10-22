@@ -10,9 +10,9 @@ int main(void) {
 	bool running = true;
 	model model;
 	viewer viewer;
+	controller controller(model);
 	
 	while (running) {
-		controller controller(model);
 		controller.cycle();
 		viewer.cycle();
 	}

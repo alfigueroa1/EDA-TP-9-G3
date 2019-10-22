@@ -29,6 +29,7 @@ public:
 	string getTweetContent();
 	string getUser();
 	stateType getState() { return state; };
+	bool isDownloading() { return downloading; }
 	void setUser(string);
 	void setMaxTweets(int);
 	bool getMoreTweets();
@@ -48,6 +49,8 @@ private:
 	stateType state;
 	string username;
 	int maxTweets;
+	int currentTransfers;
+	bool downloading;
 	vector<tweet>::iterator curr;
 	void parseTweets();
 	void makeDate(tweet&);
