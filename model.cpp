@@ -14,7 +14,6 @@
 using namespace std;
 
 
-
 model::model() {
 	if (twitter.getError()) {
 		//report error
@@ -65,6 +64,7 @@ void model::setMaxTweets(int max) {
 tweet model::getTweet(){
 	return *curr;
 }
+
 
 bool model::goPrevious() {
 	bool start = false;

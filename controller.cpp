@@ -9,7 +9,7 @@
 #include "controller.h"
 
 #define FPS	50.0
-#define MAX_USER 15
+#define MAX_USER 16
 
 controller::controller(model& model) {
 
@@ -81,10 +81,12 @@ void controller::cycle() {
 		ImGui::NewFrame();
 
 		//Pide Input del Ususario
-		askForTweets();
+		if (ask)
+			askForTweets();
 		
 		//Dibuja UI
-		drawOptions(m);
+		if(!ask)
+			drawOptions(m);
 
 		// Rendering
 		show();
@@ -116,6 +118,8 @@ void controller::drawOptions(model m) {
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
 
+	if(ImGui::Button("More Tweets"))
+		m.
 
 
 }

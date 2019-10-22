@@ -31,6 +31,7 @@ public:
 	stateType getState() { return state; };
 	void setUser(string);
 	void setMaxTweets(int);
+	bool getMoreTweets();
 
 	//Manejo de la lista de Tweets
 	tweet getTweet();				//Devuelve el tweet actual
