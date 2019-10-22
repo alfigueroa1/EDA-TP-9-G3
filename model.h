@@ -22,8 +22,8 @@ public:
 	//Constructor y destructor
 	model();
 	//~model();
-	void attach(observer& o) { observers.push_back(o); }
-	void detach(observer& o);
+	void attach(observer& o) { observers.push_back(&o); }
+	void detach(vector<observer*>::iterator pos) { observers.erase(pos); };
 	//Getters y Setters
 	string getTweetDate();
 	string getTweetContent();
@@ -44,7 +44,7 @@ public:
 
 private:
 	TwitterAPI twitter;
-	vector<observer&> observers;
+	vector<observer*> observers;
 	vector<tweet> tweetList;
 	stateType state;
 	string username;
