@@ -93,7 +93,10 @@ bool model::goNext() {
 	return end;
 }
 
-void model::stop(){}
+void model::stop(){
+	downloading = false;
+	currentTransfers = 0;
+}
 
 void model::error() {
 
