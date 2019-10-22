@@ -153,6 +153,7 @@ void controller::askForTweets() {
 		m.setUser(userBuffer);
 		m.setMaxTweets(atoi(maxBuffer));
 		ask = false;
+		m.getMoreTweets();
 		//if (m.getMoreTweets())
 			//v->displayError();
 	}
