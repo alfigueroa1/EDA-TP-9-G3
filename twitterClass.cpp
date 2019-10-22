@@ -45,8 +45,10 @@ int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
 		curl_multi_remove_handle(curlMulti, curlEasy);
 		file = json::parse(userData);
 	}
-	/*if(!userData.empty())
-		file = json::parse(userData);*/
+	/*if (!userData.empty() && *currentTransfers == 0){
+		file = json::parse(userData);
+
+	}*/
 	if (res != CURLE_OK)
 		error = true;
 	cout << "Out of getTweets" << endl;

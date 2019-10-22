@@ -44,6 +44,7 @@ int model::getMoreTweets() {
 			o << userData;
 			o.close();
 		}
+		parseTweets();
 	}
 	else
 		downloading = true;
@@ -119,28 +120,27 @@ bool model::parseTweets() {
 		j.erase(it);
 	}
 
-	if (!j.empty() && j.is_array()) {
-		for (json::iterator it = j.begin(); it != j.end(); it++) {							//Look for tweets
-			if (it.key() == "statuses") {
-				for (auto element : *it) {													//Found a tweet
-					tweet tw;
-					for (json::iterator k = element.begin(); k != element.end(); k++) {
-						if (k.key() == "created_at") {										//Found date
-							tw.date = k.value().get<string>();
-							makeDate(tw);													//Format date
-						}
-						else if (k.key() == "text") {										//Found content
-							tw.content = k.value().get<string>();
-							makeDialogue(tw);												//Format content
-							break;
-						}
-					}
-					tweetList.push_back(tw);												//Add tweet to list
-				}
-			}
+	try
+	{
+		std::vector<json> statuses = j;
+		for (auto& element : statuses) {
+			tweet tw;
+			tw.date = element["created_at"];
+			tw.content = element["text"];
+			makeDate(tw);
+			makeDialogue(tw);														//Format content
+			tweetList.push_back(tw);												//Add tweet to list
+
 		}
+		curr = tweetList.begin();
 	}
-	else if (j.empty())
+	catch (std::exception & e)
+	{
+		std::cerr << e.what() << std::endl;		//Display the error given by the json library
+	}
+
+
+	/*else if (j.empty())
 	{
 		cout << "No tweets" << 0;
 	}
@@ -160,7 +160,7 @@ bool model::parseTweets() {
 				r = false;
 			}
 		}
-	}
+	}*/
 
 	return r;
 

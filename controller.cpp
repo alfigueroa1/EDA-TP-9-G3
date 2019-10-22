@@ -10,7 +10,7 @@
 
 #define FPS	50.0
 
-controller::controller(model& model){//, viewer& viewer) {
+controller::controller(model* model){//, viewer& viewer) {
 
 	// Setup Allegro
 	al_init();
@@ -78,8 +78,8 @@ void controller::cycle() {
 	ImGui_ImplAllegro5_NewFrame();
 	ImGui::NewFrame();
 
-	if (m.isDownloading()) {
-		m.getMoreTweets();
+	if (m->isDownloading()) {
+		m->getMoreTweets();
 		drawDownloading();
 	}
 
@@ -88,7 +88,7 @@ void controller::cycle() {
 		askForTweets();
 		
 	//Dibuja UI
-	if(!ask && !m.isDownloading())
+	if(!ask && !m->isDownloading())
 		drawOptions(m);
 
 	// Rendering
@@ -96,17 +96,17 @@ void controller::cycle() {
 
 }
 
-void controller::drawOptions(model m) {
+void controller::drawOptions(model* m) {
 	ImGui::Begin("Options");
-	ImGui::Text("User: %s", m.getUser().c_str());
+	ImGui::Text("User: %s", m->getUser().c_str());
 
-	//ImGui::Text("Date %s", m.getTweetDate());
-	//ImGui::NewLine();
-	//ImGui::Text("%s", m.getTweetContent());
-	//ImGui::NewLine();
+	ImGui::Text("Date %s", m->getTweetDate().c_str());
+	ImGui::NewLine();
+	ImGui::Text("%s", m->getTweetContent().c_str());
+	ImGui::NewLine();
 
 	if (ImGui::Button("Previous")) {
-		m.goPrevious();
+		m->goPrevious();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reshow")) {
@@ -114,13 +114,15 @@ void controller::drawOptions(model m) {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Next")) {
-		m.goNext();
+		if (!m->goNext())
+			ImGui::Text("FIN");
 	}
 
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
 
 	if (ImGui::Button("More Tweets")) {
+		m->getMoreTweets();
 		//if (m.getMoreTweets())
 			//v->displayError();
 	}
@@ -132,7 +134,7 @@ void controller::drawDownloading() {
 	ImGui::Begin("Downloading Tweets");
 	ImGui::NewLine();
 	if (ImGui::Button("STOP"))
-		m.stop();
+		m->stop();
 
 	ImGui::End();
 }
@@ -150,10 +152,10 @@ void controller::askForTweets() {
 	ImGui::NewLine();
 
 	if (ImGui::Button("Submit")) {
-		m.setUser(userBuffer);
-		m.setMaxTweets(atoi(maxBuffer));
+		m->setUser(userBuffer);
+		m->setMaxTweets(atoi(maxBuffer));
 		ask = false;
-		m.getMoreTweets();
+		m->getMoreTweets();
 		//if (m.getMoreTweets())
 			//v->displayError();
 	}

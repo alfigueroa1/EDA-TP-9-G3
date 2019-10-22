@@ -7,7 +7,7 @@
 int main(void) {
 	model model;
 	//viewer viewer;
-	controller controller(model);//, viewer);
+	controller controller(&model);//, viewer);
 	controller.running = true;
 	
 	while (controller.running) {

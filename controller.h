@@ -11,19 +11,19 @@
 class controller {
 public:
 	//Constructor y destructor
-	controller(model&);// , viewer&);
+	controller(model*);// , viewer&);
 	~controller();
 
 	void cycle();
 	//void update(model);
 	void askForTweets();
 	void drawDownloading();
-	void drawOptions(model);
+	void drawOptions(model*);
 	void show();
 	bool running;
 
 private:
-	model m;
+	model* m;
 	//viewer* v;
 	//ALLEGRO_TIMER* timer;
 	ALLEGRO_DISPLAY* display;
