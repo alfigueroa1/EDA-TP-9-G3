@@ -27,16 +27,10 @@ model::model() {
 
 //model::~model() {
 //}
-void model::detach(observer& o) {
-	std::vector<observer&>::iterator position = std::find(observers.begin(), observers.end(), o);
-	if (position != observers.end()) // == observers.end() means the element was not found
-		observers.erase(position);
-	return;
-}
 
 void model::notifyAllObservers() {
-	for (observer& o : observers) {
-		o.update(this);
+	for (observer* o : observers) {
+		o->update(this);
 	}
 	return;
 }
