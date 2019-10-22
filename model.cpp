@@ -36,8 +36,15 @@ void model::notifyAllObservers() {
 }
 int model::getMoreTweets() {
 	int r = twitter.getTweets(username, maxTweets, &currentTransfers);
-	if (currentTransfers == 0)
+	if (currentTransfers == 0) {
 		downloading = false;
+		string userData = twitter.getUserData();
+		if (!userData.empty()) {
+			ofstream o("twitter.json");
+			o << userData;
+			o.close();
+		}
+	}
 	else
 		downloading = true;
 	return r;

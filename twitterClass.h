@@ -16,6 +16,7 @@ public:
 	int getTransfers() { return currentTransfers; }
 	json getJSON() { return file; }
 	int getTweets(string& name, int amount, int* currentTransfers);
+	string getUserData() { return userData; }
 
 private:
 	bool connect();
