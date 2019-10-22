@@ -32,6 +32,7 @@ TwitterAPI::~TwitterAPI() {
 }
 
 int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
+	cout << "In of getTweets" << endl;
 	CURLMcode res;
 	//cout << "Entering getTweets with " << *currentTransfers << "transfers pending." << endl;
 	if (*currentTransfers == 0) {
@@ -40,7 +41,7 @@ int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
 		file.clear();
 	}
 	res = curl_multi_perform(curlMulti, currentTransfers);
-	if (*currentTransfers == 0 && !userData.empty()) {
+	if (*currentTransfers == 0 && !userData.empty() && res == CURLE_OK) {
 		curl_multi_remove_handle(curlMulti, curlEasy);
 		file = json::parse(userData);
 	}
@@ -48,6 +49,7 @@ int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
 		file = json::parse(userData);*/
 	if (res != CURLE_OK)
 		error = true;
+	cout << "Out of getTweets" << endl;
 	return *currentTransfers;
 }
 

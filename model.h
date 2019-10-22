@@ -39,7 +39,6 @@ public:
 	bool goPrevious();				//Va el tweet anterior, devuelve true si esta en el primer tweet
 	bool goNext();					//Va el siguiente tweet, devuelve true si esta en el ultimo tweet
 	void stop();
-	void error();
 
 private:
 	TwitterAPI twitter;
@@ -51,7 +50,7 @@ private:
 	int currentTransfers;
 	bool downloading;
 	vector<tweet>::iterator curr;
-	void parseTweets();
+	bool parseTweets();
 	void makeDate(tweet&);
 	void makeDialogue(tweet&);
 

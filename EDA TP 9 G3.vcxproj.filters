@@ -95,6 +95,9 @@
     <ClInclude Include="twitterClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ftd2xx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="twitter.json">

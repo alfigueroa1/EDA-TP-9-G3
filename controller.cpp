@@ -100,10 +100,10 @@ void controller::drawOptions(model m) {
 	ImGui::Begin("Options");
 	ImGui::Text("User: %s", m.getUser().c_str());
 
-	ImGui::Text("Date %s", m.getTweetDate());
-	ImGui::NewLine();
-	ImGui::Text("%s", m.getTweetContent());
-	ImGui::NewLine();
+	//ImGui::Text("Date %s", m.getTweetDate());
+	//ImGui::NewLine();
+	//ImGui::Text("%s", m.getTweetContent());
+	//ImGui::NewLine();
 
 	if (ImGui::Button("Previous")) {
 		m.goPrevious();

@@ -100,85 +100,69 @@ void model::stop(){
 	currentTransfers = 0;
 }
 
-void model::error() {
 
-}
-
-void model::parseTweets() {
-	std::ifstream i("twitter.json", std::ifstream::in);									//Read JSON file
+bool model::parseTweets() {
 	json j;
-	i >> j;
-	i.close();
-
-	for (json::iterator it = j.begin(); it != j.end(); it++) {							//Look for tweets
-		if (it.key() == "statuses") {
-			for (auto element : *it) {													//Found a tweet
-				tweet tw;
-				for (json::iterator k = element.begin(); k != element.end(); k++) {
-					if (k.key() == "created_at") {										//Found date
-						tw.date = k.value().get<string>();
-						makeDate(tw);													//Format date
-					}
-					else if (k.key() == "text") {										//Found content
-						tw.content = k.value().get<string>();
-						makeDialogue(tw);												//Format content
-						break;
-					}
-				}
-				tweetList.push_back(tw);												//Add tweet to list
-			}
-		}
-	}
+	bool r = true;
 
 	try {
 
-		ifstream i("prueba1.json");
-		i >> file;
+		ifstream i("twitter.json", std::ifstream::in);									//Read JSON file
+		i >> j;
 		i.close();
 	}
-
-	catch (exception & e)
+	catch (exception& e)
 	{
-		json::iterator it = file.end();
+		json::iterator it = j.end();
 		it--;
 
-		file.erase(it);
+		j.erase(it);
 	}
 
-	if (!file.empty() && file.is_array())
-	{
-		for (auto& element : file)
-		{
-			auto twt = element["text"];
-			auto date = element["created_at"];
-
-			tweets.push_back(twt);
-			dates.push_back(date);
-
-			state = OKEY;
+	if (!j.empty() && j.is_array()) {
+		for (json::iterator it = j.begin(); it != j.end(); it++) {							//Look for tweets
+			if (it.key() == "statuses") {
+				for (auto element : *it) {													//Found a tweet
+					tweet tw;
+					for (json::iterator k = element.begin(); k != element.end(); k++) {
+						if (k.key() == "created_at") {										//Found date
+							tw.date = k.value().get<string>();
+							makeDate(tw);													//Format date
+						}
+						else if (k.key() == "text") {										//Found content
+							tw.content = k.value().get<string>();
+							makeDialogue(tw);												//Format content
+							break;
+						}
+					}
+					tweetList.push_back(tw);												//Add tweet to list
+				}
+			}
 		}
 	}
-
-	else if (file.empty())
+	else if (j.empty())
 	{
-		state = NO_TWEETS;
+		cout << "No tweets" << 0;
 	}
-
 	else
 	{
-		for (json::iterator it = file.begin(); it != file.end(); ++it)
+		for (json::iterator it = j.begin(); it != j.end(); ++it)
 		{
 			if (it.key() == "errors")
 			{
-				state = INEXISTENT_USERNAME;
+				cout << "El usuario no existe" << endl;
+				r = false;
 			}
 
 			else if (it.key() == "error")
 			{
-				state = PRIVATE_ACCOUNT;
+				cout << "La cuenta es privada" << endl;
+				r = false;
 			}
 		}
 	}
+
+	return r;
 
 	//for (curr = tweetList.begin(); curr != tweetList.end(); curr++) {					//Print tweets (debug)
 	//	cout << "Date: " + curr->date << endl;
