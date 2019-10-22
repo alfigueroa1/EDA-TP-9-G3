@@ -61,43 +61,40 @@ controller::~controller() {
 
 
 void controller::cycle() {
-	bool running = true;
-	while (running) {
-		ALLEGRO_EVENT ev;
-		while (al_get_next_event(queue, &ev))
+	ALLEGRO_EVENT ev;
+	while (al_get_next_event(queue, &ev))
+	{
+		ImGui_ImplAllegro5_ProcessEvent(&ev);
+		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+			running = false;
+		if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE)
 		{
-			ImGui_ImplAllegro5_ProcessEvent(&ev);
-			if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-				running = false;
-			if (ev.type == ALLEGRO_EVENT_DISPLAY_RESIZE)
-			{
-				ImGui_ImplAllegro5_InvalidateDeviceObjects();
-				al_acknowledge_resize(display);
-				ImGui_ImplAllegro5_CreateDeviceObjects();
-			}
+			ImGui_ImplAllegro5_InvalidateDeviceObjects();
+			al_acknowledge_resize(display);
+			ImGui_ImplAllegro5_CreateDeviceObjects();
 		}
-
-		if (m.isDownloading()) {
-			m.getMoreTweets();
-			drawDownloading();
-		}
-
-		// Start the Dear ImGui frame
-		ImGui_ImplAllegro5_NewFrame();
-		ImGui::NewFrame();
-
-		//Pide Input del Ususario
-		if (ask)
-			askForTweets();
-		
-		//Dibuja UI
-		if(!ask && !m.isDownloading())
-			drawOptions(m);
-
-		// Rendering
-		show();
-
 	}
+
+	if (m.isDownloading()) {
+		m.getMoreTweets();
+		drawDownloading();
+	}
+
+	// Start the Dear ImGui frame
+	ImGui_ImplAllegro5_NewFrame();
+	ImGui::NewFrame();
+
+	//Pide Input del Ususario
+	if (ask)
+		askForTweets();
+		
+	//Dibuja UI
+	if(!ask && !m.isDownloading())
+		drawOptions(m);
+
+	// Rendering
+	show();
+
 }
 
 void controller::drawOptions(model m) {
@@ -114,7 +111,7 @@ void controller::drawOptions(model m) {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reshow")) {
-		m.reshow();
+		v->restartTweet(m.getTweet());
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Next")) {

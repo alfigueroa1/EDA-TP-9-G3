@@ -17,7 +17,7 @@ public:
 	void drawDownloading();
 	void drawOptions(model);
 	void show();
-
+	bool running;
 
 private:
 	model m;
