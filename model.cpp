@@ -22,7 +22,6 @@ model::model() {
 	downloading = false;
 	username = "NASA";
 	curr = tweetList.begin();
-
 }
 
 //model::~model() {
@@ -66,6 +65,14 @@ string model::getUser() {
 
 void model::setUser(string user) {
 	username = user;
+}
+
+int model::getSpeed() {
+	return speed;
+}
+
+void model::setSpeed(int velocidad) {
+	speed = velocidad;
 }
 
 void model::setMaxTweets(int max) {

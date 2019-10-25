@@ -28,10 +28,13 @@ public:
 	string getTweetDate();
 	string getTweetContent();
 	string getUser();
+	int getSpeed();
 	stateType getState() { return state; };
 	bool isDownloading() { return downloading; }
 	void setUser(string);
 	void setMaxTweets(int);
+	void setSpeed(int);
+
 	int getMoreTweets();
 
 	//Manejo de la lista de Tweets
@@ -49,6 +52,7 @@ private:
 	int maxTweets;
 	int currentTransfers;
 	bool downloading;
+	int speed;
 	vector<tweet>::iterator curr;
 	bool parseTweets();
 	void makeDate(tweet&);

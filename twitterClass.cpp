@@ -51,7 +51,7 @@ int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
 	}*/
 	if (res != CURLE_OK)
 		error = true;
-	cout << "Out of getTweets" << endl;
+	//cout << "Out of getTweets" << endl;
 	return *currentTransfers;
 }
 
