@@ -19,6 +19,12 @@
     <Filter Include="Header Files\ImGUI.h">
       <UniqueIdentifier>{be1a2fc0-1e96-4b72-8668-2472ee22cc59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\LCD">
+      <UniqueIdentifier>{e04a37db-d274-404e-9253-0eb7cf6a5cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LCD">
+      <UniqueIdentifier>{124d55f9-1e9e-4b91-971a-ffe47d7debfd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,16 +58,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="basicLCD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lcdInit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lcdWriteIR.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LCD</Filter>
     </ClCompile>
     <ClCompile Include="hitachiLCD.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\LCD</Filter>
+    </ClCompile>
+    <ClCompile Include="lcdInit.cpp">
+      <Filter>Source Files\LCD</Filter>
+    </ClCompile>
+    <ClCompile Include="lcdWriteIR.cpp">
+      <Filter>Source Files\LCD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,23 +113,23 @@
     <ClInclude Include="twitterClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ftd2xx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="basicLCD.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\LCD</Filter>
+    </ClInclude>
+    <ClInclude Include="ftd2xx.h">
+      <Filter>Header Files\LCD</Filter>
     </ClInclude>
     <ClInclude Include="hitachiLCD.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\LCD</Filter>
     </ClInclude>
     <ClInclude Include="lcd.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\LCD</Filter>
     </ClInclude>
     <ClInclude Include="lcdInit.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\LCD</Filter>
     </ClInclude>
     <ClInclude Include="lcdWriteIR.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\LCD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,5 +145,8 @@
     <Text Include="imgui_log.txt">
       <Filter>Source Files\ImGUI.cpp</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="ftd2xx.lib" />
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@ public:
 	int getMaxTweets();
 	int getSpeed();
 	stateType getState();
+	bool emptyTweetList();
 	void setState(stateType);
 	void setUser(string);
 	void setMaxTweets(int);

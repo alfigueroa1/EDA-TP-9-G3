@@ -97,6 +97,10 @@ tweet model::getTweet(){
 	return *curr;
 }
 
+bool model::emptyTweetList() {
+	return tweetList.empty();
+}
+
 
 bool model::goPrevious() {
 	bool start = false;

@@ -1,7 +1,7 @@
 #pragma once
-#define FTD2XX_EXPORTS
 #include <string>
 #include <windows.h>
+#define FTD2XX_EXPORTS
 #include "ftd2xx.h"
 
 //estructura de una clase abstracta de un lcd generico
@@ -110,7 +110,7 @@ public:
 	* basicLCD lcd;
 	* lcd << “Hola” << “ “ << “Mundo”;
 	*=====================================================*/
-	virtual basicLCD& operator<<(const unsigned char* c) = 0;
+	virtual basicLCD& operator<<(const char* c) = 0;
 
 
 	/*=====================================================
