@@ -19,6 +19,7 @@ public:
 	void askForTweets();
 	void drawDownloading();
 	void drawOptions(model*);
+	void drawError();
 	void show();
 	bool running;
 
@@ -31,6 +32,5 @@ private:
 	char userBuffer[MAX_USER];
 	char maxBuffer[MAX_TWEETS];
 	float speed;
-	bool ask;
 
 };

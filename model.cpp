@@ -19,7 +19,8 @@ model::model() {
 		//report error
 	}
 	currentTransfers = 0;
-	downloading = false;
+	state = INIT;
+	//downloading = false;
 	username = "NASA";
 	curr = tweetList.begin();
 }
@@ -36,7 +37,7 @@ void model::notifyAllObservers() {
 int model::getMoreTweets() {
 	int r = twitter.getTweets(username, maxTweets, &currentTransfers);
 	if (currentTransfers == 0) {
-		downloading = false;
+		state = FINISHED_DOWNLOAD;
 		string userData = twitter.getUserData();
 		if (!userData.empty()) {
 			ofstream o("twitter.json");
@@ -46,7 +47,7 @@ int model::getMoreTweets() {
 		parseTweets();
 	}
 	else
-		downloading = true;
+		state = DOWNLOADING;
 	return r;
 }
 
@@ -75,8 +76,20 @@ void model::setSpeed(int velocidad) {
 	speed = velocidad;
 }
 
+int model::getMaxTweets() {
+	return maxTweets;
+}
+
 void model::setMaxTweets(int max) {
 	maxTweets = max;
+}
+
+stateType model::getState(){
+	return state;
+};
+
+void model::setState(stateType estado) {
+	state = estado;
 }
 
 //Manejo de la lista de Tweets
@@ -87,16 +100,19 @@ tweet model::getTweet(){
 
 bool model::goPrevious() {
 	bool start = false;
+	if (state == END)
+		state = PREV;
 	if (curr != tweetList.begin())
 		curr--;
-	else
+	else {
 		start = true;
+	}
 	return start;
 }
 
 bool model::goNext() {
 	bool end = false;
-	if (curr != tweetList.end())
+	if (curr != tweetList.end() - 1)
 		curr++;
 	else {
 		state = END;
@@ -106,7 +122,7 @@ bool model::goNext() {
 }
 
 void model::stop(){
-	downloading = false;
+	state = FINISH_EARLY;
 	currentTransfers = 0;
 }
 
@@ -149,11 +165,11 @@ bool model::parseTweets() {
 	}
 
 
-	/*else if (j.empty())
+	/*if (j.empty())
 	{
 		cout << "No tweets" << 0;
 	}
-	else
+	else if()
 	{
 		for (json::iterator it = j.begin(); it != j.end(); ++it)
 		{

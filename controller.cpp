@@ -44,7 +44,7 @@ controller::controller(model* model){//, viewer& viewer) {
 	// Initialize Variables
 	m = model;
 	//v = &viewer;
-	ask = true;
+	userBuffer[0] = '@';
 
 	// Start Timer
 	//al_start_timer(timer);
@@ -78,18 +78,21 @@ void controller::cycle() {
 	ImGui_ImplAllegro5_NewFrame();
 	ImGui::NewFrame();
 
-	if (m->isDownloading()) {
+	switch (m->getState()) {
+	case INIT:						//Pide Input del Ususario
+		askForTweets();
+		break;
+	case DOWNLOADING:				//Ventana de que está descargando
 		m->getMoreTweets();
 		drawDownloading();
-	}
-
-	//Pide Input del Ususario
-	if (ask)
-		askForTweets();
-		
-	//Dibuja UI
-	if(!ask && !m->isDownloading())
+		break;
+	case ERR:						//Muestra que hubo un error
+		drawError();
+		break;
+	default:						//Dibuja UI
 		drawOptions(m);
+		break;
+	}
 
 	// Rendering
 	show();
@@ -98,7 +101,10 @@ void controller::cycle() {
 
 void controller::drawOptions(model* m) {
 	ImGui::Begin("Options");
-	ImGui::Text("User: %s", m->getUser().c_str());
+	ImGui::Text("User: %s", m->getUser().c_str());		ImGui::SameLine();
+	ImGui::Text("Last %d tweets", m->getMaxTweets());	ImGui::SameLine();
+	if (ImGui::Button("Change"))
+		m->setState(INIT);
 
 	ImGui::Text("Date %s", m->getTweetDate().c_str());
 	ImGui::NewLine();
@@ -113,10 +119,10 @@ void controller::drawOptions(model* m) {
 		//v->restartTweet(m.getTweet());
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Next")) {
-		if (!m->goNext())
-			ImGui::Text("FIN");
-	}
+	if (ImGui::Button("Next"))
+		m->goNext();
+	if (m->getState() == END)
+		ImGui::Text("END");
 
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
@@ -135,13 +141,20 @@ void controller::drawDownloading() {
 	ImGui::NewLine();
 	if (ImGui::Button("STOP"))
 		m->stop();
+	ImGui::End();
+}
 
+void controller::drawError() {
+	ImGui::Begin("Error");
+	ImGui::Text("Error downloading tweets");
+	if (ImGui::Button("Retry"))
+		m->setState(INIT);
 	ImGui::End();
 }
 
 void controller::askForTweets() {
 
-	ImGui::Begin("Display tweets on LCD!", &ask);
+	ImGui::Begin("Display tweets on LCD!");
 
 	ImGui::Text("Por favor especifique la cuenta de la cual quiere leer los tweets");
 	ImGui::InputText("Username", userBuffer, MAX_USER);
@@ -154,7 +167,6 @@ void controller::askForTweets() {
 	if (ImGui::Button("Submit")) {
 		m->setUser(userBuffer);
 		m->setMaxTweets(atoi(maxBuffer));
-		ask = false;
 		m->getMoreTweets();
 		//if (m.getMoreTweets())
 			//v->displayError();

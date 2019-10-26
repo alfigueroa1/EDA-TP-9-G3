@@ -32,7 +32,7 @@ TwitterAPI::~TwitterAPI() {
 }
 
 int TwitterAPI::getTweets(string& name, int amount, int* currentTransfers) {
-	cout << "In of getTweets" << endl;
+	//cout << "In of getTweets" << endl;
 	CURLMcode res;
 	//cout << "Entering getTweets with " << *currentTransfers << "transfers pending." << endl;
 	if (*currentTransfers == 0) {

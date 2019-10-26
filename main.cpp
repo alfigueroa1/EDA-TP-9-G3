@@ -6,12 +6,13 @@
 
 int main(void) {
 	model model;
-	//viewer viewer;
 	controller controller(&model);//, viewer);
+	//viewer viewer(&model);
 	controller.running = true;
 	
 	while (controller.running) {
 		controller.cycle();
+		//viewer.update(&model);
 		//viewer.cycle();
 	}
 

@@ -54,13 +54,13 @@
     <ClCompile Include="basicLCD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hitachiLCD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lcdInit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lcdWriteIR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hitachiLCD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
