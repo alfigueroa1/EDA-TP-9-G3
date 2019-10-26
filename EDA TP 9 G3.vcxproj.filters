@@ -51,6 +51,18 @@
     <ClCompile Include="twitterClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="basicLCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hitachiLCD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lcdInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lcdWriteIR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="viewer.h">
@@ -96,6 +108,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ftd2xx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basicLCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hitachiLCD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lcd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lcdInit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lcdWriteIR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

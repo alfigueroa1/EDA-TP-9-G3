@@ -98,8 +98,10 @@ bool model::goNext() {
 	bool end = false;
 	if (curr != tweetList.end())
 		curr++;
-	else
+	else {
+		state = END;
 		end = true;
+	}
 	return end;
 }
 

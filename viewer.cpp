@@ -8,7 +8,8 @@
 
 using namespace std;
 
-#define MAX_SPEED 50
+#define MAX_SPEED	50
+#define MAX_BUFFER	16
 
 viewer::viewer(){
 	bool valid = true;
@@ -24,20 +25,43 @@ viewer::~viewer(){
 	delete display;
 }
 
-void viewer::update(void*m){
-	m = (model*)m; //Recibe model y lo castea a (model*) wut
+void viewer::update(void*mod){
+	m = (model*)mod; //Recibe model y lo castea a (model*)
 }
 
-void viewer::cycle(){
+void viewer::cycle() {
 	//Ciclo adentro del while de lo que hace
+	changeSpeed(m->getSpeed());
+	if (m->isDownloading()) {
+		if (m->getState() == ERR)
+			displayError();
+		else {
+			showUser(m->getUser());
+			showProcessing();
+		}
+	}
+	else {
+		if (m->getState() == END)
+			showEnd();
+		else {
+			if (getTweetState(m->getTweet()))
+				restartTweet(m->getTweet());
+			displayDate(m->getTweet().date);
+			displayContent(m->getTweet().content);
+		}
+	}
 }
 
-bool viewer::getTweetState(){
-	return state;
+bool viewer::getTweetState(tweet tw){
+	bool r = false;
+	if(iter == tw.content.length())
+		r = true;
+	return r;
 }
 
 void viewer::restartTweet(tweet tw){
 	//Reinicia el tweet que se estaba mostrando
+	iter = 0;
 }
 
 void viewer::changeSpeed(int speed){
@@ -47,14 +71,14 @@ void viewer::changeSpeed(int speed){
 }
 
 void viewer::showEnd(){
-	display << "END";
+	*display << (const unsigned char*)"END";
 	//Muestra que se llegó al final de los tweets
 }
 
-void displayError(){
+void viewer::displayError(){
 	string error = "ERROR EN LA DESCARGA";
 	display->lcdClear();
-	display << error.c_str();
+	*display << (const unsigned char*)error.c_str();
 }
 
 bool viewer::isValid()
@@ -73,30 +97,44 @@ void viewer::replaceChars(tweet& tw){
 
 void viewer::displayDate(string date) {
 	display->lcdClear();
-	display << date.c_str();
+	*display << (const unsigned char*)date.c_str();
 }
+
 void viewer::displayContent(string content){
-	display->lcdSetCursorPosition({ SECOND_ROW, 0 });
+	display->lcdSetCursorPosition({ 2, 0 });
  	display->lcdClearToEOL();
-	display << content.c_str();
+	if(char* buffer = scrollTweet(content))
+		*display << (const unsigned char*)buffer;
 }
-void viewer::scrollTweet(string content){
+
+char* viewer::scrollTweet(string content){
 	//Mueve el tweet por el display
+	char buffer[MAX_BUFFER];
+	if (chrono::system_clock::now() > clock + tick) {
+		for (int i = 0; i < MAX_BUFFER; i++)
+			buffer[i] = content.c_str()[iter + i];
+		iter++;
+		clock = chrono::system_clock::now();
+		return buffer;
+	}
+	return NULL;
 }
 void viewer::showUser(string username){
 	display->lcdClear();
-	display << username.c_str();
+	*display << (const unsigned char*)username.c_str();
 }
+
 void viewer::showProcessing(){
 	//Muestra animación de que se estan descargando los tweets (no bloqueante)
+	display->lcdSetCursorPosition({2, 0});
 	if (chrono::system_clock::now() > clock + tick) {
-		display << '|';
+		*display << '|';
 		clock = chrono::system_clock::now();
 	}
 	else if (chrono::system_clock::now() > clock + 3 * tick / 4)
-		display << '\\';
+		*display << '\\';
 	else if (chrono::system_clock::now() > clock + tick / 2)
-		display << '-';
+		*display << '-';
 	else if (chrono::system_clock::now() > clock + tick / 4)
-		display << '/';
+		*display << '/';
 }

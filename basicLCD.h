@@ -1,6 +1,7 @@
 #pragma once
 #define FTD2XX_EXPORTS
 #include <string>
+#include <windows.h>
 #include "ftd2xx.h"
 
 //estructura de una clase abstracta de un lcd generico

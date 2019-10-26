@@ -140,20 +140,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="basicLCD.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="hitachiLCD.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_impl_allegro5.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="lcdInit.cpp" />
+    <ClCompile Include="lcdWriteIR.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="twitterClass.cpp" />
     <ClCompile Include="viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="basicLCD.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="ftd2xx.h" />
+    <ClInclude Include="hitachiLCD.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imconfig_allegro5.h" />
     <ClInclude Include="imgui.h" />
@@ -163,6 +169,9 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="lcd.h" />
+    <ClInclude Include="lcdInit.h" />
+    <ClInclude Include="lcdWriteIR.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="twitterClass.h" />

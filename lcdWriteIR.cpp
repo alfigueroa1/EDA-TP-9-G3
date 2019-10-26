@@ -15,6 +15,14 @@ void lcdWriteIR(FT_HANDLE* deviceHandler, BYTE valor) {
 	return;
 }
 
+void lcdWriteDR(FT_HANDLE* deviceHandler, BYTE valor) {
+	if ((valor & LCD_RS_OFF) != 0)
+		valor = valor & (~LCD_RS_OFF);
+	sendNybble(*deviceHandler, 1, valor | LCD_NYBBLE_H);
+	sendNybble(*deviceHandler, 1, valor | LCD_NYBBLE_L);
+
+	return;
+}
 
 void sendNybble(FT_HANDLE lcdHandle, DWORD sizeSent, unsigned char byte) {
 	unsigned char info;

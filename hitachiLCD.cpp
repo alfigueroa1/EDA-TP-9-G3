@@ -3,7 +3,6 @@
 #include "lcd.h"
 #include "lcdInit.h"
 #include "lcdWriteIR.h"
-#include "lcdWriteDR.h" //falta
 
 #define START_FIRST_LINE 1
 #define END_FIRST_LINE 16
