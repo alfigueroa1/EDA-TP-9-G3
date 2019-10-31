@@ -141,7 +141,7 @@ bool model::parseTweets() {
 		i >> j;
 		i.close();
 	}
-	catch (exception& e)
+	catch (exception & e)
 	{
 		json::iterator it = j.end();
 		it--;
@@ -149,47 +149,44 @@ bool model::parseTweets() {
 		j.erase(it);
 	}
 
-	try
-	{
-		std::vector<json> statuses = j;
-		for (auto& element : statuses) {
-			tweet tw;
-			tw.date = element["created_at"];
-			tw.content = element["text"];
-			makeDate(tw);
-			makeDialogue(tw);														//Format content
-			tweetList.push_back(tw);												//Add tweet to list
+	if(!j.empty() && j.is_array()){
+		try
+		{
+			std::vector<json> statuses = j;
+			for (auto& element : statuses) {
+				tweet tw;
+				tw.date = element["created_at"];
+				tw.content = element["text"];
+				makeDate(tw);
+				makeDialogue(tw);														//Format content
+				tweetList.push_back(tw);												//Add tweet to list
 
+			}
+			curr = tweetList.begin();
 		}
-		curr = tweetList.begin();
+		catch (std::exception & e)
+		{
+			std::cerr << e.what() << std::endl;		//Display the error given by the json library
+		}
 	}
-	catch (std::exception & e)
-	{
-		std::cerr << e.what() << std::endl;		//Display the error given by the json library
+	else if (j.empty()){
+		state = NO_TWEETS;
 	}
-
-
-	/*if (j.empty())
-	{
-		cout << "No tweets" << 0;
-	}
-	else if()
-	{
+	else{
 		for (json::iterator it = j.begin(); it != j.end(); ++it)
 		{
 			if (it.key() == "errors")
 			{
-				cout << "El usuario no existe" << endl;
+				state = NO_USER;
 				r = false;
 			}
-
 			else if (it.key() == "error")
 			{
-				cout << "La cuenta es privada" << endl;
+				state = PRIVATE_USER;
 				r = false;
 			}
 		}
-	}*/
+	}
 
 	return r;
 
@@ -206,6 +203,66 @@ bool model::parseTweets() {
 	}
 	myfile.close();*/
 }
+
+//El de tupapasitoGian
+/*void Client::getTweets()
+{
+	tweets.clear();
+	ofstream o("prueba1.json");
+	o << aux;
+	o.close();
+
+	try {
+
+		ifstream i("prueba1.json");
+		i >> file;
+		i.close();
+	}
+
+	catch (exception & e)
+	{
+		json::iterator it = file.end();
+		it--;
+
+		file.erase(it);
+	}
+
+	if (!file.empty() && file.is_array())
+	{
+		for (auto& element : file)
+		{
+			auto twt = element["text"];
+			auto date = element["created_at"];
+
+			tweets.push_back(twt);
+			dates.push_back(date);
+		}
+	}
+
+	else if (file.empty())
+	{
+		//ERROR NO HAY TWEETS
+		cout << "No hay tweets" << endl;
+	}
+
+	else
+	{
+		for (json::iterator it = file.begin(); it != file.end(); ++it)
+		{
+			if (it.key() == "errors")
+			{
+				cout << "Persona no existe" << endl;
+			}
+
+			else if (it.key() == "error")
+			{
+				cout << "Persona candadito" << endl;
+			}
+		}
+	}
+
+	return;
+}*/
 
 void model::makeDate(tweet& tw) {
 	tm when;

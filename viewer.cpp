@@ -8,23 +8,25 @@
 
 using namespace std;
 
-#define MAX_SPEED	50
+#define MAX_SPEED	500
 #define MAX_BUFFER	16
 
 viewer::viewer(void* mod){
-	bool valid = true;
+	valid = true;
 	display = new hitachiLCD;			//UNRESOLVED EXTERNAL
 	if (!display->lcdInitOk())
 		valid = false;
 	iter = 0;
+	buf = 0;
 	m = (model*) mod;
 	clock = chrono::system_clock::now();
 	chrono::duration<int, milli> dur(100);
 	tick = dur;
-	showDate = false;
+	reset = false;
 }
 
 viewer::~viewer(){
+	display->lcdClear();
 	delete display;
 }
 
@@ -34,39 +36,42 @@ void viewer::update(void*mod){
 
 void viewer::cycle() {
 	//Ciclo adentro del while de lo que hace
-	changeSpeed(m->getSpeed());
 	switch (m->getState()) {
 	case ERR:
 		displayError();
-		showDate = true;
+		reset = true;
 		break;
 	case DOWNLOADING:
 		showUser(m->getUser());
 		showProcessing();
-		showDate = true;
+		reset = true;
+		break;
+	case NO_TWEETS:
+		noTweets();
+		break;
+	case NO_USER:
+		noUser();
+		break;
+	case PRIVATE_USER:
+		privateUser();
 		break;
 	case END:
 		showEnd();
-		showDate = true;
+		reset = true;
 		break;
 	default:
 		if (!m->emptyTweetList()) {
-			if (getTweetState(m->getTweet()))
-				restartTweet(m->getTweet());
-			//displayDate(m->getTweet().date);
-			if (showDate) {
+			if (reset) {
 				displayDate(m->getTweet().date);
-				showDate = false;
+				reset = false;
 			}
-			if (m->getTweet().content.length() > (iter + MAX_BUFFER - 1)) {
+			if (!getTweetState(m->getTweet())) {
 				tweet tw = m->getTweet();
 				replaceChars(tw);
 				displayContent(tw.content);
 			}
 			else{
-				restartTweet(m->getTweet());
-				showDate = true;
-				m->goNext();
+				reset = true;
 			}
 		}
 		break;
@@ -74,15 +79,20 @@ void viewer::cycle() {
 }
 
 bool viewer::getTweetState(tweet tw){
-	bool r = false;
-	if(iter == tw.content.length())
-		r = true;
-	return r;
+	if (iter >= tw.content.length() - MAX_BUFFER - 1) {
+		iter = 0;
+		buf = 0;
+		reset = true;
+	}
+	else
+		reset = false;
+	return reset;
 }
 
 void viewer::restartTweet(tweet tw){
 	//Reinicia el tweet que se estaba mostrando
 	iter = 0;
+	buf = 0;
 }
 
 void viewer::changeSpeed(int speed){
@@ -119,34 +129,40 @@ void viewer::replaceChars(tweet& tw){
 }
 
 void viewer::displayDate(string date) {
-	display->lcdSetCursorPosition({ 2, 0 });
-	*display << date.c_str();
-}
-void viewer::displayContent(string content) {
 	display->lcdSetCursorPosition({ 1, 1 });
 	display->lcdClearToEOL();
-	char buffer[MAX_BUFFER];
+	*display << date.c_str();
+	display->lcdSetCursorPosition({ 2, 0 });
+}
+
+void viewer::displayContent(string content) {
+	//display->lcdClearToEOL();
 	if (chrono::system_clock::now() > clock + tick) {
-		for (int i = 0; i < MAX_BUFFER; i++)
-			*display << content.c_str()[iter + i];
-		iter++;
+		*display << content.c_str()[iter + buf];
+		if (++buf == MAX_BUFFER){
+			display->lcdSetCursorPosition({ 2, 0 });
+			buf = 0;
+			iter++;
+		}
 		clock = chrono::system_clock::now();
 	}
 	/*if (scrollTweet(content, buffer))
 		*display << buffer;*/
 }
 
-bool viewer::scrollTweet(string content, char buffer[MAX_BUFFER]) {
-	//Mueve el tweet por el display
-	if (chrono::system_clock::now() > clock + tick) {
-		for (int i = 0; i < MAX_BUFFER; i++)
-			buffer[i] = content.c_str()[iter + i];
-		iter++;
-		clock = chrono::system_clock::now();
-		return true;
-	}
-	return false;
-}
+
+
+//bool viewer::scrollTweet(string content, char buffer[MAX_BUFFER]) {
+//	//Mueve el tweet por el display
+//	if (chrono::system_clock::now() > clock + tick) {
+//		for (int i = 0; i < MAX_BUFFER; i++)
+//			buffer[i] = content.c_str()[iter + i];
+//		iter++;
+//		clock = chrono::system_clock::now();
+//		return true;
+//	}
+//	return false;
+//}
 /*void viewer::displayContent(string content){
 	display->lcdSetCursorPosition({ 2, 0 });
  	display->lcdClearToEOL();
@@ -169,6 +185,24 @@ char* viewer::scrollTweet(string content){
 void viewer::showUser(string username){
 	display->lcdClear();
 	*display << username.c_str();
+}
+
+void viewer::noTweets() {
+	display->lcdClear();
+	char buffer[MAX_BUFFER] = { ' ', ' ', ' ', 'N', 'O', ' ', ' ', 'T', 'W', 'E', 'E', 'T', 'S', ' ', ' ', ' ' };
+	*display << buffer;
+}
+
+void viewer::noUser() {
+	display->lcdClear();
+	char buffer[MAX_BUFFER] = { 'N', 'O', 'N', 'E', 'X', 'I', 'S', 'T', 'E', 'N', 'T', ' ', 'U', 'S', 'E', 'R' };
+	*display << buffer;
+}
+
+void viewer::privateUser() {
+	display->lcdClear();
+	char buffer[MAX_BUFFER] = { ' ', ' ', 'P', 'R', 'I', 'V', 'A', 'T', 'E', ' ', 'U', 'S', 'E', 'R', ' ', ' ' };
+	*display << buffer;
 }
 
 void viewer::showProcessing(){

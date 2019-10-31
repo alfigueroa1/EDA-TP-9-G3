@@ -10,7 +10,7 @@
 
 #define FPS	50.0
 
-controller::controller(model* model){//, viewer& viewer) {
+controller::controller(model* model, viewer* viewer) {
 
 	// Setup Allegro
 	al_init();
@@ -19,13 +19,12 @@ controller::controller(model* model){//, viewer& viewer) {
 	al_init_image_addon();
 	al_init_primitives_addon();
 	al_set_new_display_flags(ALLEGRO_RESIZABLE);
-	display = al_create_display(1280, 860);
-	al_set_window_title(display, "EDA-TP8-G2");
+	display = al_create_display(1366, 720);
+	al_set_window_title(display, "EDA-TP9-G3");
 	queue = al_create_event_queue();
 	al_register_event_source(queue, al_get_display_event_source(display));
 	al_register_event_source(queue, al_get_keyboard_event_source());
 	al_register_event_source(queue, al_get_mouse_event_source());
-	//timer = al_create_timer(1.0/FPS);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -43,11 +42,9 @@ controller::controller(model* model){//, viewer& viewer) {
 
 	// Initialize Variables
 	m = model;
-	//v = &viewer;
+	v = viewer;
 	userBuffer[0] = '@';
 
-	// Start Timer
-	//al_start_timer(timer);
 }
 
 controller::~controller() {
@@ -58,6 +55,9 @@ controller::~controller() {
 	al_destroy_display(display);
 }
 
+void controller::update(void* mod) {
+	m = (model*)mod;
+}
 
 void controller::cycle() {
 	ALLEGRO_EVENT ev;
@@ -89,17 +89,27 @@ void controller::cycle() {
 	case ERR:						//Muestra que hubo un error
 		drawError();
 		break;
+	case NO_TWEETS:
+		noTweets();
+		break;
+	case NO_USER:
+		noUser();
+		break;
+	case PRIVATE_USER:
+		privateUser();
+		break;
 	default:						//Dibuja UI
-		drawOptions(m);
+		drawOptions();
+		if (v->getTweetState(m->getTweet()))
+			m->goNext();
 		break;
 	}
 
 	// Rendering
 	show();
-
 }
 
-void controller::drawOptions(model* m) {
+void controller::drawOptions() {
 	ImGui::Begin("Options");
 	ImGui::Text("User: %s", m->getUser().c_str());		ImGui::SameLine();
 	ImGui::Text("Last %d tweets", m->getMaxTweets());	ImGui::SameLine();
@@ -116,7 +126,7 @@ void controller::drawOptions(model* m) {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reshow")) {
-		//v->restartTweet(m.getTweet());
+		v->restartTweet(m->getTweet());
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Next"))
@@ -126,11 +136,11 @@ void controller::drawOptions(model* m) {
 
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
+	v->changeSpeed(speed);
 
 	if (ImGui::Button("More Tweets")) {
-		m->getMoreTweets();
-		//if (m.getMoreTweets())
-			//v->displayError();
+		if (m->getMoreTweets())
+			v->displayError();
 	}
 
 	ImGui::End();
@@ -167,11 +177,28 @@ void controller::askForTweets() {
 	if (ImGui::Button("Submit")) {
 		m->setUser(userBuffer);
 		m->setMaxTweets(atoi(maxBuffer));
-		m->getMoreTweets();
-		//if (m.getMoreTweets())
-			//v->displayError();
+		if (m->getMoreTweets())
+			v->displayError();
 	}
 
+	ImGui::End();
+}
+
+void controller::noTweets() {
+	ImGui::Begin("Display tweets on lcd!");
+	ImGui::Text("La cuenta ingresada no tiene tweets");
+	ImGui::End();
+}
+
+void controller::noUser() {
+	ImGui::Begin("Display tweets on lcd!");
+	ImGui::Text("El usuario no existe");
+	ImGui::End();
+}
+
+void controller::privateUser() {
+	ImGui::Begin("Display tweets on lcd!");
+	ImGui::Text("El usuario es privado");
 	ImGui::End();
 }
 
