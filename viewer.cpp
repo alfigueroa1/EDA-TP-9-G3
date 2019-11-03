@@ -20,7 +20,7 @@ viewer::viewer(void* mod){
 	buf = 0;
 	m = (model*) mod;
 	clock = chrono::system_clock::now();
-	chrono::duration<int, milli> dur(100);
+	chrono::duration<int, milli> dur(50);
 	tick = dur;
 	reset = false;
 }
@@ -138,7 +138,7 @@ void viewer::replaceChars(tweet& tw){
 	aux = regex_replace(aux, std::regex("í"), "i");
 	aux = regex_replace(aux, std::regex("ó"), "o");
 	aux = regex_replace(aux, std::regex("ú"), "u");
-	aux = regex_replace(aux, std::regex("\u2019"), "'");
+	//aux = regex_replace(aux, std::regex("\u2019"), "'");
 	tw.content = aux;
 }
 
@@ -257,14 +257,14 @@ void viewer::privateUser() {
 void viewer::showProcessing(){
 	//Muestra animación de que se estan descargando los tweets (no bloqueante)
 	display->lcdSetCursorPosition({2, 0});
-	if (chrono::system_clock::now() > clock + tick) {
+	if (chrono::system_clock::now() > clock + 4*tick) {
 		*display << '|';
 		clock = chrono::system_clock::now();
 	}
-	else if (chrono::system_clock::now() > clock + 3 * tick / 4)
+	else if (chrono::system_clock::now() > clock + 3 * tick)
 		*display << '\\';
-	else if (chrono::system_clock::now() > clock + tick / 2)
+	else if (chrono::system_clock::now() > clock + 2 * tick)
 		*display << '-';
-	else if (chrono::system_clock::now() > clock + tick / 4)
+	else if (chrono::system_clock::now() > clock + tick)
 		*display << '/';
 }
