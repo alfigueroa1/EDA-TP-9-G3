@@ -285,6 +285,6 @@ void model::makeDate(tweet& tw) {
 void model::makeDialogue(tweet& tw) {
 	string s = tw.content;
 	int extended = s.find("https");					//Find the url to erase it
-	s = s.substr(0, extended - 4);					//Erase the url
+	s = s.substr(0, extended);						//Erase the url
 	tw.content = username + ": - " + s + " -";		//Convert to required format
 }

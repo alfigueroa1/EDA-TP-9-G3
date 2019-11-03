@@ -133,7 +133,7 @@ void controller::drawOptions() {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reshow")) {
-		v->restartTweet(m->getTweet());
+		v->restartTweet();								//MEJOR CAMBIAR EL ESTADO DEL MODELO A RESTART
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Next"))

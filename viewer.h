@@ -18,7 +18,7 @@ public:
 	void update(void*);							//Recibe model y lo castea a (model*)
 	void cycle();								//Ciclo adentro del while de lo que hace
 	bool getTweetState(tweet);					//Avisa si el tweet terminó de pasar (true)
-	void restartTweet(tweet);					//Reinicia el tweet que se estaba mostrando
+	void restartTweet();						//Reinicia el tweet que se estaba mostrando
 	void changeSpeed(int);						//Ajusta la velocidad a la que se esta mostrando el tweet
 	void showEnd();								//Muestra que se llegó al final de los tweets
 	void initView();

@@ -69,6 +69,7 @@ void viewer::cycle() {
 		if (!m->emptyTweetList()) {
 			if (reset) {
 				displayDate(m->getTweet().date);
+				restartTweet();
 				reset = false;
 			}
 			if (!getTweetState(m->getTweet())) {
@@ -86,7 +87,6 @@ void viewer::cycle() {
 
 bool viewer::getTweetState(tweet tw){
 	if (iter >= tw.content.length() - 1) {
-		restartTweet(tw);
 		reset = true;
 	}
 	else
@@ -94,10 +94,11 @@ bool viewer::getTweetState(tweet tw){
 	return reset;
 }
 
-void viewer::restartTweet(tweet tw){
+void viewer::restartTweet() {
 	//Reinicia el tweet que se estaba mostrando
 	iter = 0;
 	buf = 0;
+	display->lcdSetCursorPosition({2, 0});
 }
 
 void viewer::changeSpeed(int speed){
@@ -130,6 +131,7 @@ void viewer::replaceChars(tweet& tw){
 	aux = regex_replace(aux, std::regex("í"), "i");
 	aux = regex_replace(aux, std::regex("ó"), "o");
 	aux = regex_replace(aux, std::regex("ú"), "u");
+	aux = regex_replace(aux, std::regex("\u2019"), "'");
 	tw.content = aux;
 }
 
