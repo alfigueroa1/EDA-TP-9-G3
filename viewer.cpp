@@ -37,6 +37,10 @@ void viewer::update(void*mod){
 void viewer::cycle() {
 	//Ciclo adentro del while de lo que hace
 	switch (m->getState()) {
+	case INIT:
+		display->lcdClear();
+		*display << "Tweets in LCD!";
+		break;
 	case ERR:
 		displayError();
 		reset = true;
