@@ -45,7 +45,9 @@ void viewer::cycle() {
 		reset = true;
 		break;
 	case DOWNLOADING:
-		showUser(m->getUser());
+		if (!reset) {
+			showUser(m->getUser());
+		}
 		showProcessing();
 		reset = true;
 		break;
@@ -56,11 +58,16 @@ void viewer::cycle() {
 		noUser();
 		break;
 	case PRIVATE_USER:
-		privateUser();
+		if (!reset) {
+			privateUser();
+			reset = true;
+		}
 		break;
 	case END:
-		showEnd();
-		reset = true;
+		if(!reset){
+			showEnd();
+			reset = true;
+		}
 		break;
 	case NEXT: case PREV: case REPEAT:
 		reset = true;
