@@ -75,7 +75,7 @@ void viewer::cycle() {
 			if (!getTweetState(m->getTweet())) {
 				tweet tw = m->getTweet();
 				replaceChars(tw);
-				displayContent(tw.content);
+				displayContent(tw.content + "                ");
 			}
 			else{
 				reset = true;
@@ -86,7 +86,7 @@ void viewer::cycle() {
 }
 
 bool viewer::getTweetState(tweet tw){
-	if (iter >= tw.content.length() - MAX_BUFFER - 1) {
+	if (iter >= tw.content.length() - 1) {
 		restartTweet(tw);
 		reset = true;
 	}
