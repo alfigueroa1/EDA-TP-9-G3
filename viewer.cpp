@@ -38,8 +38,7 @@ void viewer::cycle() {
 	//Ciclo adentro del while de lo que hace
 	switch (m->getState()) {
 	case INIT:
-		display->lcdClear();
-		*display << "Tweets in LCD!";
+		initView();
 		break;
 	case ERR:
 		displayError();
@@ -193,22 +192,57 @@ void viewer::showUser(string username){
 	*display << username.c_str();
 }
 
+void viewer::initView() {
+	string content = "Tweets in LCD!  ";
+	if (chrono::system_clock::now() > clock + tick) {
+		*display << content.c_str()[buf];
+		if (++buf == MAX_BUFFER) {
+			display->lcdSetCursorPosition({ 2, 0 });
+			buf = 0;
+			iter++;
+		}
+		clock = chrono::system_clock::now();
+	}
+}
+
 void viewer::noTweets() {
-	display->lcdClear();
+	string content = "   NO  TWEETS   ";
 	char buffer[MAX_BUFFER] = { ' ', ' ', ' ', 'N', 'O', ' ', ' ', 'T', 'W', 'E', 'E', 'T', 'S', ' ', ' ', ' ' };
-	*display << buffer;
+	if (chrono::system_clock::now() > clock + tick) {
+		*display << content.c_str()[buf];
+		if (++buf == MAX_BUFFER) {
+			display->lcdSetCursorPosition({ 2, 0 });
+			buf = 0;
+			iter++;
+		}
+		clock = chrono::system_clock::now();
+	}
 }
 
 void viewer::noUser() {
-	display->lcdClear();
-	char buffer[MAX_BUFFER] = { 'N', 'O', 'N', 'E', 'X', 'I', 'S', 'T', 'E', 'N', 'T', ' ', 'U', 'S', 'E', 'R' };
-	*display << buffer;
+	string content = "   NO    USER   ";
+	if (chrono::system_clock::now() > clock + tick) {
+		*display << content.c_str()[buf];
+		if (++buf == MAX_BUFFER) {
+			display->lcdSetCursorPosition({ 2, 0 });
+			buf = 0;
+			iter++;
+		}
+		clock = chrono::system_clock::now();
+	}
 }
 
 void viewer::privateUser() {
-	display->lcdClear();
-	char buffer[MAX_BUFFER] = { ' ', ' ', 'P', 'R', 'I', 'V', 'A', 'T', 'E', ' ', 'U', 'S', 'E', 'R', ' ', ' ' };
-	*display << buffer;
+	string content = " PRIVATE USER ";
+	if (chrono::system_clock::now() > clock + tick) {
+		*display << content.c_str()[buf];
+		if (++buf == MAX_BUFFER) {
+			display->lcdSetCursorPosition({ 2, 0 });
+			buf = 0;
+			iter++;
+		}
+		clock = chrono::system_clock::now();
+	}
 }
 
 void viewer::showProcessing(){
