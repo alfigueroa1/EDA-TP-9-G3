@@ -59,6 +59,9 @@ void viewer::cycle() {
 		showEnd();
 		reset = true;
 		break;
+	case NEXT: case PREV: case REPEAT:
+		reset = true;
+		break;
 	default:
 		if (!m->emptyTweetList()) {
 			if (reset) {
@@ -80,8 +83,7 @@ void viewer::cycle() {
 
 bool viewer::getTweetState(tweet tw){
 	if (iter >= tw.content.length() - MAX_BUFFER - 1) {
-		iter = 0;
-		buf = 0;
+		restartTweet(tw);
 		reset = true;
 	}
 	else

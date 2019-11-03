@@ -116,8 +116,10 @@ bool model::goPrevious() {
 
 bool model::goNext() {
 	bool end = false;
-	if (curr != tweetList.end() - 1)
+	if (curr != tweetList.end() - 1) {
 		curr++;
+		state = NEXT;
+	}
 	else {
 		state = END;
 		end = true;

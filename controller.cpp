@@ -98,6 +98,9 @@ void controller::cycle() {
 	case PRIVATE_USER:
 		privateUser();
 		break;
+	case NEXT: case PREV: case REPEAT:
+		m->setState(FINISHED_DOWNLOAD);
+		break;
 	default:						//Dibuja UI
 		drawOptions();
 		if (v->getTweetState(m->getTweet()))
