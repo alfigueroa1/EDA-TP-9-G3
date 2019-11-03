@@ -102,6 +102,7 @@ void controller::cycle() {
 		askForTweets();
 		break;
 	case NEXT: case PREV: case REPEAT:
+		drawOptions();
 		m->setState(FINISHED_DOWNLOAD);
 		break;
 	default:						//Dibuja UI

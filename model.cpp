@@ -104,10 +104,10 @@ bool model::emptyTweetList() {
 
 bool model::goPrevious() {
 	bool start = false;
-	if (state == END)
-		state = PREV;
-	if (curr != tweetList.begin())
+	if (curr != tweetList.begin()) {
 		curr--;
+		state = PREV;
+	}
 	else {
 		start = true;
 	}
