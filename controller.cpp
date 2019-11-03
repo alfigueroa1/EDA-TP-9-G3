@@ -91,12 +91,15 @@ void controller::cycle() {
 		break;
 	case NO_TWEETS:
 		noTweets();
+		askForTweets();
 		break;
 	case NO_USER:
 		noUser();
+		askForTweets();
 		break;
 	case PRIVATE_USER:
 		privateUser();
+		askForTweets();
 		break;
 	case NEXT: case PREV: case REPEAT:
 		m->setState(FINISHED_DOWNLOAD);
