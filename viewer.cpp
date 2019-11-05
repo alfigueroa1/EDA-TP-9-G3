@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define MAX_SPEED	500
+#define MAX_SPEED	100
 #define MAX_BUFFER	16
 
 viewer::viewer(void* mod){
@@ -110,7 +110,8 @@ void viewer::restartTweet() {
 
 void viewer::changeSpeed(int speed){
 	//Ajusta la velocidad a la que se esta mostrando el tweet
-	chrono::duration<int, milli> bar((speed / 100) * MAX_SPEED);
+	//chrono::duration<int, milli> bar((speed / 100) * MAX_SPEED);
+	chrono::duration<int, milli> bar((speed/2) - 10);
 	tick = bar;
 }
 
@@ -133,12 +134,12 @@ bool viewer::isValid(){
 
 void viewer::replaceChars(tweet& tw){
 	std::string aux = tw.content;
-	aux = regex_replace(aux, std::regex("á"), "a"); // replace all 'á' to 'a'
-	aux = regex_replace(aux, std::regex("é"), "e");
-	aux = regex_replace(aux, std::regex("í"), "i");
-	aux = regex_replace(aux, std::regex("ó"), "o");
-	aux = regex_replace(aux, std::regex("ú"), "u");
-	//aux = regex_replace(aux, std::regex("\u2019"), "'");
+	aux = regex_replace(aux, regex("á"), "a"); // replace all 'á' to 'a'
+	aux = regex_replace(aux, regex("é"), "e");
+	aux = regex_replace(aux, regex("í"), "i");
+	aux = regex_replace(aux, regex("ó"), "o");
+	aux = regex_replace(aux, regex("ú"), "u");
+	aux = regex_replace(aux, regex("â€™"), "'");
 	tw.content = aux;
 }
 
@@ -164,38 +165,6 @@ void viewer::displayContent(string content) {
 		*display << buffer;*/
 }
 
-
-
-//bool viewer::scrollTweet(string content, char buffer[MAX_BUFFER]) {
-//	//Mueve el tweet por el display
-//	if (chrono::system_clock::now() > clock + tick) {
-//		for (int i = 0; i < MAX_BUFFER; i++)
-//			buffer[i] = content.c_str()[iter + i];
-//		iter++;
-//		clock = chrono::system_clock::now();
-//		return true;
-//	}
-//	return false;
-//}
-/*void viewer::displayContent(string content){
-	display->lcdSetCursorPosition({ 2, 0 });
- 	display->lcdClearToEOL();
-	if(char* buffer = scrollTweet(content))
-		*display << buffer;
-}
-
-char* viewer::scrollTweet(string content){
-	//Mueve el tweet por el display
-	char buffer[MAX_BUFFER];
-	if (chrono::system_clock::now() > clock + tick) {
-		for (int i = 0; i < MAX_BUFFER; i++)
-			buffer[i] = content.c_str()[iter + i];
-		iter++;
-		clock = chrono::system_clock::now();
-		return buffer;
-	}
-	return NULL;
-}*/
 void viewer::showUser(string username){
 	display->lcdClear();
 	*display << username.c_str();

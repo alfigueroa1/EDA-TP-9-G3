@@ -143,7 +143,7 @@ void controller::drawOptions() {
 
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
-	v->changeSpeed(speed);
+	v->changeSpeed((int)speed);
 
 	if (ImGui::Button("More Tweets")) {
 		if (m->getMoreTweets())
