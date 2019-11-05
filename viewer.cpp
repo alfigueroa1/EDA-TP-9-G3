@@ -20,7 +20,7 @@ viewer::viewer(void* mod){
 	buf = 0;
 	m = (model*) mod;
 	clock = chrono::system_clock::now();
-	chrono::duration<int, milli> dur(50);
+	chrono::duration<int, milli> dur(100);
 	tick = dur;
 	reset = false;
 }
@@ -139,7 +139,7 @@ void viewer::replaceChars(tweet& tw){
 	aux = regex_replace(aux, regex("í"), "i");
 	aux = regex_replace(aux, regex("ó"), "o");
 	aux = regex_replace(aux, regex("ú"), "u");
-	aux = regex_replace(aux, regex("â€™"), "'");
+	aux = regex_replace(aux, regex("ñ"), "ni");
 	tw.content = aux;
 }
 
@@ -225,7 +225,7 @@ void viewer::privateUser() {
 
 void viewer::showProcessing(){
 	//Muestra animación de que se estan descargando los tweets (no bloqueante)
-	display->lcdSetCursorPosition({2, 0});
+	display->lcdSetCursorPosition({2, 7});
 	if (chrono::system_clock::now() > clock + 4*tick) {
 		*display << '|';
 		clock = chrono::system_clock::now();

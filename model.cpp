@@ -41,6 +41,7 @@ int model::getMoreTweets() {
 		string userData = twitter.getUserData();
 		if (!userData.empty()) {
 			ofstream o("twitter.json");
+			o.clear();
 			o << userData;
 			o.close();
 		}
@@ -136,6 +137,7 @@ void model::stop(){
 bool model::parseTweets() {
 	json j;
 	bool r = true;
+	tweetList.clear();
 
 	try {
 
@@ -305,22 +307,17 @@ void model::replaceChars(string& content) {
 			}
 		}
 	while ((i = content.find('ð', i + 1)) > 0) {
-		if (content[i + 1] == 'Ÿ') {
-			if (content[i + 2] == '˜') {
+		if(content[i + 1] == 'Ÿ') {
+			switch (content[i + 2]){
+			case '˜':
 				content.replace(i, 3, "(^_^')");
+				break;
+			case 'Ž':
+				if(content[i + 3] == 'ˆ')
+					content.replace(i, 4, "O-");
 			}
-
 		}
 	}
-
-	//content.replace(content.begin(), content.end(), 'é', 'e');
-	//content.replace(content.begin(), content.end(), 'í', 'i');
-	//content.replace(content.begin(), content.end(), 'ó', 'o');
-	//content.replace(content.begin(), content.end(), 'ú', 'u');
-	//content.replace(content.begin(), content.end(), 'ñ', 'n');
-	//content.replace(content.begin(), content.end(), '¡', '!');
-	//content.replace(content.begin(), content.end(), '¿', '?');
-	//replace(content.begin(), content.end(), "â€™", "'");
 }
 
 
