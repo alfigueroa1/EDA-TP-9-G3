@@ -20,7 +20,7 @@ viewer::viewer(void* mod){
 	buf = 0;
 	m = (model*) mod;
 	clock = chrono::system_clock::now();
-	chrono::duration<int, milli> dur(500);
+	chrono::duration<int, milli> dur(300);
 	tick = dur;
 	reset = false;
 }
@@ -110,7 +110,7 @@ void viewer::restartTweet() {
 void viewer::changeSpeed(int speed){
 	//Ajusta la velocidad a la que se esta mostrando el tweet
 	//chrono::duration<int, milli> bar((speed / 100) * MAX_SPEED);
-	chrono::duration<int, milli> bar((speed/2) - 10);
+	chrono::duration<int, milli> bar((300 - speed));
 	tick = bar;
 }
 
@@ -138,7 +138,13 @@ void viewer::replaceChars(tweet& tw){
 	aux = regex_replace(aux, regex("í"), "i");
 	aux = regex_replace(aux, regex("ó"), "o");
 	aux = regex_replace(aux, regex("ú"), "u");
+	aux = regex_replace(aux, regex("Á"), "A");
+	aux = regex_replace(aux, regex("É"), "E");
+	aux = regex_replace(aux, regex("Í"), "I");
+	aux = regex_replace(aux, regex("Ó"), "O");
+	aux = regex_replace(aux, regex("Ú"), "U");
 	aux = regex_replace(aux, regex("ñ"), "ni");
+	aux = regex_replace(aux, regex("Ñ"), "Ni");
 	aux = regex_replace(aux, regex("\n"), "  ");
 	tw.content = aux;
 }

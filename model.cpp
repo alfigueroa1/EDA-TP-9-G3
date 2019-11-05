@@ -69,14 +69,6 @@ void model::setUser(string user) {
 	username = user;
 }
 
-int model::getSpeed() {
-	return speed;
-}
-
-void model::setSpeed(int velocidad) {
-	speed = velocidad;
-}
-
 int model::getMaxTweets() {
 	return maxTweets;
 }
@@ -294,12 +286,16 @@ void model::makeDialogue(tweet& tw) {
 
 void model::replaceChars(string& content) {
 	int i = -1;
+	char aux[2] = { 0x22, 0 };
 	while((i = content.find('â', i + 1)) > 0)
 		switch (content[i + 1]) {
 		case '€':
 			switch (content[i + 2]) {
 			case '™':
 				content.replace(i, 3, "'");
+				break;
+			case'œ': default:
+				content.replace(i, 3, aux);
 				break;
 			case '¦':
 				content.replace(i, 3, "...");

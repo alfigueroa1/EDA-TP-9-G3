@@ -53,7 +53,6 @@ private:
 	string username;
 	int maxTweets;
 	int currentTransfers;
-	int speed;
 	vector<tweet>::iterator curr;
 	bool parseTweets();
 	void makeDate(tweet&);

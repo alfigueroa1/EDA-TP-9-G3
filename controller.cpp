@@ -146,8 +146,9 @@ void controller::drawOptions() {
 	v->changeSpeed((int)speed);
 
 	if (ImGui::Button("More Tweets")) {
-		if (m->getMoreTweets())
-			m->setState(ERR);
+		m->setState(INIT);
+		//if (!m->getMoreTweets())
+			//m->setState(ERR);
 	}
 
 	ImGui::End();
@@ -184,7 +185,7 @@ void controller::askForTweets() {
 	if (ImGui::Button("Submit")) {
 		m->setUser(userBuffer);
 		m->setMaxTweets(atoi(maxBuffer));
-		if (m->getMoreTweets())
+		if (!m->getMoreTweets())
 			m->setState(ERR);
 	}
 
