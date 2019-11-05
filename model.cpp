@@ -168,7 +168,7 @@ bool model::parseTweets() {
 		}
 		catch (std::exception & e)
 		{
-			std::cerr << e.what() << std::endl;		//Display the error given by the json library
+			std::cerr << e.what() << std::endl;											//Display the error given by the json library
 		}
 	}
 	else if (j.empty()){
@@ -287,4 +287,41 @@ void model::makeDialogue(tweet& tw) {
 	int extended = s.find("https");					//Find the url to erase it
 	s = s.substr(0, extended);						//Erase the url
 	tw.content = username + ": - " + s + " -";		//Convert to required format
+	replaceChars(tw.content);
 }
+
+void model::replaceChars(string& content) {
+	int i = -1;
+	while((i = content.find('â', i + 1)) > 0)
+		switch (content[i + 1]) {
+		case '€':
+			switch (content[i + 2]) {
+			case '™':
+				content.replace(i, 3, "'");
+				break;
+			case '¦':
+				content.replace(i, 3, "...");
+				break;
+			}
+		}
+	while ((i = content.find('ð', i + 1)) > 0) {
+		if (content[i + 1] == 'Ÿ') {
+			if (content[i + 2] == '˜') {
+				content.replace(i, 3, "(^_^')");
+			}
+
+		}
+	}
+
+	//content.replace(content.begin(), content.end(), 'é', 'e');
+	//content.replace(content.begin(), content.end(), 'í', 'i');
+	//content.replace(content.begin(), content.end(), 'ó', 'o');
+	//content.replace(content.begin(), content.end(), 'ú', 'u');
+	//content.replace(content.begin(), content.end(), 'ñ', 'n');
+	//content.replace(content.begin(), content.end(), '¡', '!');
+	//content.replace(content.begin(), content.end(), '¿', '?');
+	//replace(content.begin(), content.end(), "â€™", "'");
+}
+
+
+

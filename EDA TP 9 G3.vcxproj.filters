@@ -146,7 +146,4 @@
       <Filter>Source Files\ImGUI.cpp</Filter>
     </Text>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="ftd2xx.lib" />
-  </ItemGroup>
 </Project>

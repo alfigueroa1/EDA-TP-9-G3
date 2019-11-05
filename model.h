@@ -58,6 +58,7 @@ private:
 	bool parseTweets();
 	void makeDate(tweet&);
 	void makeDialogue(tweet&);
+	void replaceChars(string&);
 
 	void notifyAllObservers();
 
