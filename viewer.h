@@ -45,4 +45,6 @@ private:
 	//bool scrollTweet(string content, char buffer[16]);			//Mueve el tweet por el display
 	void showUser(string username);				//Muestra usuario del cual se estan descargando los tweets (no bloqueante)
 	void showProcessing();						//Muestra animación de que se estan descargando los tweets (no bloqueante)
+	void stop();
+	void showParsing();
 };

@@ -44,6 +44,7 @@ controller::controller(model* model, viewer* viewer) {
 	m = model;
 	v = viewer;
 	userBuffer[0] = '@';
+	speed = 100;
 
 }
 
@@ -144,11 +145,16 @@ void controller::drawOptions() {
 	ImGui::NewLine();
 	ImGui::SliderFloat("LCD Speed", &speed, 0, 100);
 	v->changeSpeed((int)speed);
+	ImGui::SameLine();
+	if (ImGui::Button("Stop") || m->getState() == STOP) {
+		m->setState(STOP);
+		ImGui::SameLine();
+		if (ImGui::Button("Resume"))
+			m->setState(FINISHED_DOWNLOAD);
+	}
 
 	if (ImGui::Button("More Tweets")) {
 		m->setState(INIT);
-		//if (!m->getMoreTweets())
-			//m->setState(ERR);
 	}
 
 	ImGui::End();
@@ -157,7 +163,7 @@ void controller::drawOptions() {
 void controller::drawDownloading() {
 	ImGui::Begin("Downloading Tweets");
 	ImGui::NewLine();
-	if (ImGui::Button("STOP"))
+	if (ImGui::Button("STOP DOWNLOADING"))
 		m->stop();
 	ImGui::End();
 }

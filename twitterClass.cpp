@@ -68,13 +68,13 @@ void TwitterAPI::curlMultiConfig(string& name, int amount) {
 	if (curlMulti && curlEasy)
 	{
 		//Le decimos a cURL que imprima todos los mensajes que se envían entre cliente y servidor.
-		//curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
+		curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
 
 		//Seteamos primero la pagina donde nos vamos a conectar.
 		curl_easy_setopt(curlEasy, CURLOPT_URL, path.c_str());
 
 		// Le decimos a cURL que trabaje con HTTP.
-		curl_easy_setopt(curlEasy, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+		curl_easy_setopt(curlEasy, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS | CURLPROTO_HTTP);
 
 		//Le decimos a cURL que cuando haya que escribir llame a myCallback
 		//y que use al string readString como user data.
@@ -96,7 +96,7 @@ void TwitterAPI::curlMultiConfig(string& name, int amount) {
 		curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 0L);
 
 		//Kcyo estaba en internet
-		curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 0L);
+		//curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 0L);
 
 		//Atacheo el easy_handle
 		curl_multi_add_handle(curlMulti, curlEasy);

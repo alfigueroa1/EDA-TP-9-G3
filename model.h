@@ -14,7 +14,7 @@ struct tweet {
 };
 
 typedef enum {
-	INIT, ERR, DOWNLOADING, FINISHED_DOWNLOAD, FINISH_EARLY, NO_TWEETS, NO_USER, PRIVATE_USER, REPEAT, NEXT, PREV, END
+	INIT, ERR, DOWNLOADING, FINISHED_DOWNLOAD, FINISH_EARLY, PARSING, NO_TWEETS, NO_USER, PRIVATE_USER, REPEAT, NEXT, PREV, STOP, END
 } stateType;
 
 class model {
@@ -29,13 +29,11 @@ public:
 	string getTweetContent();
 	string getUser();
 	int getMaxTweets();
-	int getSpeed();
 	stateType getState();
 	bool emptyTweetList();
 	void setState(stateType);
 	void setUser(string);
 	void setMaxTweets(int);
-	void setSpeed(int);
 
 	int getMoreTweets();
 

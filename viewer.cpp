@@ -51,6 +51,11 @@ void viewer::cycle() {
 		showProcessing();
 		reset = true;
 		break;
+	case PARSING:
+		if (reset)
+			showParsing();
+		reset = false;
+		break;
 	case NO_TWEETS:
 		noTweets();
 		break;
@@ -70,6 +75,9 @@ void viewer::cycle() {
 		break;
 	case NEXT: case PREV: case REPEAT:
 		reset = true;
+		break;
+	case STOP:
+		stop();
 		break;
 	default:
 		if (!m->emptyTweetList()) {
@@ -110,8 +118,12 @@ void viewer::restartTweet() {
 void viewer::changeSpeed(int speed){
 	//Ajusta la velocidad a la que se esta mostrando el tweet
 	//chrono::duration<int, milli> bar((speed / 100) * MAX_SPEED);
-	chrono::duration<int, milli> bar((300 - speed));
-	tick = bar;
+	chrono::duration<int, milli> bar((500 - speed*5));
+	this->tick = bar;
+}
+
+void viewer::stop() {
+	reset = true;
 }
 
 void viewer::showEnd(){
@@ -158,7 +170,7 @@ void viewer::displayDate(string date) {
 
 void viewer::displayContent(string content) {
 	//display->lcdClearToEOL();
-	if (chrono::system_clock::now() > clock + tick) {
+	if ((chrono::system_clock::now() > clock + tick) && !reset) {
 		*display << content.c_str()[iter + buf];
 		if (++buf == MAX_BUFFER){
 			display->lcdSetCursorPosition({ 2, 0 });
@@ -167,8 +179,6 @@ void viewer::displayContent(string content) {
 		}
 		clock = chrono::system_clock::now();
 	}
-	/*if (scrollTweet(content, buffer))
-		*display << buffer;*/
 }
 
 void viewer::showUser(string username){
@@ -242,4 +252,10 @@ void viewer::showProcessing(){
 		*display << '-';
 	else if (chrono::system_clock::now() > clock + tick)
 		*display << '/';
+}
+
+void viewer::showParsing() {
+	display->lcdClear();
+	*display << "PROCESSING";
+	//Muestra que se estan leyendo los tweets
 }

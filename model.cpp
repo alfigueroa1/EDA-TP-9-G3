@@ -21,12 +21,9 @@ model::model() {
 	currentTransfers = 0;
 	state = INIT;
 	//downloading = false;
-	username = "NASA";
+	username = "";
 	curr = tweetList.begin();
 }
-
-//model::~model() {
-//}
 
 void model::notifyAllObservers() {
 	for (observer* o : observers) {
@@ -34,6 +31,7 @@ void model::notifyAllObservers() {
 	}
 	return;
 }
+
 int model::getMoreTweets() {
 	int r = twitter.getTweets(username, maxTweets, &currentTransfers);
 	if (currentTransfers == 0) {
@@ -123,10 +121,12 @@ bool model::goNext() {
 void model::stop(){
 	state = FINISH_EARLY;
 	currentTransfers = 0;
+	parseTweets();
 }
 
 
 bool model::parseTweets() {
+	state = PARSING;
 	json j;
 	bool r = true;
 	tweetList.clear();
@@ -183,6 +183,8 @@ bool model::parseTweets() {
 			}
 		}
 	}
+
+	state = FINISHED_DOWNLOAD;
 
 	return r;
 
