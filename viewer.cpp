@@ -20,7 +20,7 @@ viewer::viewer(void* mod){
 	buf = 0;
 	m = (model*) mod;
 	clock = chrono::system_clock::now();
-	chrono::duration<int, milli> dur(100);
+	chrono::duration<int, milli> dur(500);
 	tick = dur;
 	reset = false;
 }
@@ -41,13 +41,13 @@ void viewer::cycle() {
 		initView();
 		break;
 	case ERR:
-		displayError();
+		if(!reset)
+			displayError();
 		reset = true;
 		break;
 	case DOWNLOADING:
-		if (!reset) {
+		if (!reset)
 			showUser(m->getUser());
-		}
 		showProcessing();
 		reset = true;
 		break;
@@ -58,10 +58,9 @@ void viewer::cycle() {
 		noUser();
 		break;
 	case PRIVATE_USER:
-		if (!reset) {
+		if (!reset)
 			privateUser();
 			reset = true;
-		}
 		break;
 	case END:
 		if(!reset){
@@ -123,7 +122,7 @@ void viewer::showEnd(){
 
 void viewer::displayError(){
 	display->lcdClear();
-	string error = "ERROR EN LA DESCARGA";
+	string error = "DOWNLOAD ERROR";
 	display->lcdSetCursorPosition({2,1});
 	*display << error.c_str();
 }
@@ -140,6 +139,7 @@ void viewer::replaceChars(tweet& tw){
 	aux = regex_replace(aux, regex("ó"), "o");
 	aux = regex_replace(aux, regex("ú"), "u");
 	aux = regex_replace(aux, regex("ñ"), "ni");
+	aux = regex_replace(aux, regex("\n"), "  ");
 	tw.content = aux;
 }
 

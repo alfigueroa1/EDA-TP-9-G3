@@ -147,7 +147,7 @@ void controller::drawOptions() {
 
 	if (ImGui::Button("More Tweets")) {
 		if (m->getMoreTweets())
-			v->displayError();
+			m->setState(ERR);
 	}
 
 	ImGui::End();
@@ -177,7 +177,7 @@ void controller::askForTweets() {
 	ImGui::InputText("Username", userBuffer, MAX_USER);
 	ImGui::NewLine();
 
-	ImGui::Text("Por favor especifique la cantidad de twets que quiere cargar");
+	ImGui::Text("Por favor especifique la cantidad de tweets que quiere cargar");
 	ImGui::InputText("Amount of tweets", maxBuffer, 5);
 	ImGui::NewLine();
 
@@ -185,7 +185,7 @@ void controller::askForTweets() {
 		m->setUser(userBuffer);
 		m->setMaxTweets(atoi(maxBuffer));
 		if (m->getMoreTweets())
-			v->displayError();
+			m->setState(ERR);
 	}
 
 	ImGui::End();
