@@ -237,7 +237,7 @@ void viewer::showProcessing(){
 		clock = chrono::system_clock::now();
 	}
 	else if (chrono::system_clock::now() > clock + 3 * tick)
-		*display << '\\';
+		*display << 0x60;
 	else if (chrono::system_clock::now() > clock + 2 * tick)
 		*display << '-';
 	else if (chrono::system_clock::now() > clock + tick)
